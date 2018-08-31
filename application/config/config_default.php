@@ -524,15 +524,15 @@ $config['proxy_ips'] = '';
 /**
  * the folder for saving the temporary file from remote server
  */
-$config['temp_file_dir'] = "e:/temp";
+$config['temp_file_dir'] = __DIR__ . "/application/cache";
 /**
  * the folder for saving the content, prepare for push to the remote server
  */
-$config['cache_file_dir'] = "e:/temp";
+$config['cache_file_dir'] = __DIR__ . "/application/cache";
 
-$config['workspace_dir'] = "e:/workspace/web/active";
+$config['workspace_dir'] = "";
 
-$config['connect_type'] = "local";
+$config['connect_type'] = "";
 $config['conn_username'] = "";
 $config['conn_password'] = "";
 $config['conn_port'] = "";
