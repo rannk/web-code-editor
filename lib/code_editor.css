@@ -166,7 +166,8 @@ ul {
     margin-bottom: 0;
 }
 .tab-pane textarea {
-    display: none;
+    max-height: 0px;
+    max-width: 0px;
 }
 .file_loading ul {
     padding: 0;
