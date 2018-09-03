@@ -1,9 +1,9 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="stylesheet" href="/index.php/css/minify?lib/codemirror.css:lib/code_editor.css">
+<link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css">
 <link rel="stylesheet" href="lib/font-awesome.min.css">
 <link rel="stylesheet" href="addon/hint/show-hint.css">
-<script src="/index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js"></script>
+<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js"></script>
 <script src="lib/codemirror.js"></script>
 <script src="mode/clike/clike.js"></script>
 <script src="mode/xml/xml.js"></script>
