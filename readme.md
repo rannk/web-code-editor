@@ -1,6 +1,6 @@
 # Web Code Editor
 This is a easy code editor rely on web browser. User can use this editor on phone, ipad or desktop, only you have the browser. you can edit your code anywhere.
-
+You could see demo here: http://code.kuyousoft.com:8182/demo_editor/
 ## How to install
 
 ### requirement:
