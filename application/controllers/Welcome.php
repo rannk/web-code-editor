@@ -6,7 +6,8 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
         $this->load->library('Basic');
-        $data['files'] = $this->basic->getOpenFiles();
+        $data = $this->basic->getPluginsData();
+        $data['files'] = $this->basic->getExistsOpenFile();
 		$this->load->view('editor.php', $data);
 	}
 }

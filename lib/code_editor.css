@@ -11,16 +11,71 @@ ul {
     list-style: none;
 }
 
+code_script {
+    display: none;
+}
+
 #top_nav{
-    height: 30px;
+    height: 25px;
     background: #000;
     font-size: 16px;
     color: #fff;
+    overflow: scroll;
+    display: flex;
+}
+#top_nav::-webkit-scrollbar{
+    display: none;
 }
 #top_nav .nav_item{
     padding-top: 5px;
     padding-left: 10px;
     float: left;
+}
+
+#btn_workspace {
+    font-size: 14px;
+}
+
+#top_nav_icons {
+    height: 25px;
+    background: #000;
+    font-size: 16px;
+    color: #fff;
+    overflow: scroll;
+    display: flex;
+    border-top: solid;
+    border-color: #2e3436;
+    border-top-width: thin;
+}
+#top_nav_icons::-webkit-scrollbar{
+    display: none;
+}
+
+#top_nav_icons ul {
+    padding: 0;
+}
+
+#top_nav_icons li {
+    min-width: 20px;
+    padding-top: 2px;
+    text-align: center;
+    float: left;
+    margin-left: 10px;
+}
+#top_nav_icons li span{
+    border: solid thin;
+    border-color: #000000;
+    padding: 2px;
+}
+#top_nav_icons li span:hover{
+    border-color: #9d9d9d;
+    padding: 2px;
+    background: #2e3436;
+}
+#top_nav_icons li span.cantdo:hover{
+    border-color: #000000;
+    padding: 2px;
+    background: #000000;
 }
 .font_gray{
     color: #8c8c8c;
@@ -61,6 +116,9 @@ ul {
     font-size: 16px;
 }
 
+.cantdo {
+    color: #666666;
+}
 
 .left20{
     margin-left: 20px;
@@ -173,8 +231,55 @@ ul {
     padding: 0;
     padding-top: 15%;
 }
+#content_menu {
+    position: fixed;
+}
+#folder_menu {
+    position: fixed;
+}
+.menu_wrapper {
+    background: #cccccc;
+    display: none;
+    min-width: 100px;
+    padding: 0;
+    z-index: 99;
+    border: solid;
+    border-width: thin;
+    border-color: #8c8c8c;
+}
+
+.menu_wrapper .active {
+    background: #0000ff;
+    color: #ffffff;
+}
+
+.menu_wrapper li {
+    padding: 5px;
+    padding-left: 25px;
+    font-size: 12px;
+    font-weight: 200;
+}
+
+#main_menu {
+    padding: 0;
+    display: flex;
+}
+
+#main_menu li {
+    display: inline;
+    margin-right: 10px;
+    font-size: 12px;
+    padding-top: 3px;
+}
+
+.nav_item .sub_menu {
+    position: absolute;
+    top:25px;
+    z-index: 999;
+    color: #000000;
+}
+
 .loading{
-    width: 150px;
     height: 10px;
     margin: 0 auto;
     text-align: center;
