@@ -522,6 +522,11 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 /**
+ * 设置当前系统是否开发模式
+ * 如果是开发模式，editor读取插件的js则不读取缓存
+ */
+$config['dev_model'] = true;
+/**
  * the folder for saving the temporary file from remote server
  */
 $config['temp_file_dir'] = __DIR__ . "/../cache";

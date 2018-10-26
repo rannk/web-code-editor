@@ -1,9 +1,9 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css">
+<link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css:lib/editor_modal.css">
 <link rel="stylesheet" href="lib/font-awesome.min.css">
 <link rel="stylesheet" href="addon/hint/show-hint.css">
-<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js"></script>
+<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js:lib/editor_modal.js"></script>
 <script src="lib/codemirror.js"></script>
 <script src="mode/clike/clike.js"></script>
 <script src="mode/xml/xml.js"></script>
@@ -15,20 +15,67 @@
 <script src="addon/hint/show-hint.js"></script>
 <script src="addon/hint/xml-hint.js"></script>
 <script src="addon/hint/html-hint.js"></script>
-<body>
+<body <?php if (getDevModel()) echo 'dev_model="true"'?>>
 <div id="top_nav">
     <div class="nav_item" id="btn_workspace">
-       workspace
+        <?=lang("workspace")?>
     </div>
     <div class="nav_item font_gray">
         |
     </div>
+    <div class="nav_item">
+        <?php
+        /**
+         * load navigation menu data from plugins
+         * all data from /plugins directory
+         */
+        ?>
+        <ul id="main_menu">
+            <?php
+            if(count($nav_menu) > 0) {
+                $target_id = 1;
+                foreach($nav_menu as $menus) {
+                    $target = "";
+                    if(is_array($menus) && count($menus['submenu']) > 0) {
+                        $target = 'data-target="#d'.$target_id++.'"';
+                        echo '<li '.$target.'>'.$menus['name'].'</li>';
+                    }
+                }
+            }
+            ?>
+        </ul>
+        <?php
+        if(count($nav_menu) > 0) {
+            $target_id = 1;
+            foreach($nav_menu as $menus) {
+                if(is_array($menus) && count($menus['submenu']) > 0) {
+                    $content = '<div class="sub_menu"><ul class="menu_wrapper" id="d'.$target_id++.'">';
+                    foreach($menus['submenu'] as $submenus) {
+                        $content .= setPluginItem("li", $submenus);
+                    }
+                    echo $content . "</ul></div>";
+                }
+            }
+        }
+        // load menu data end
+        ?>
+    </div>
 </div>
-
+<div id="top_nav_icons">
+    <ul>
+        <?php
+        if(count($icons_menu) > 0) {
+            foreach($icons_menu as $k => $v) {
+                echo setPluginItem("li", $v);
+            }
+        }
+        ?>
+    </ul>
+</div>
 <div style="width: 100%;position:relative;" id="editor_section">
     <div id="workspace" style="padding-top: 15px;">
         <ul>
-            <li type="folder" root="yes" name="workspace">
+            <li type="folder" root="yes" name="workspace" file="/">
                 <div class="filename"><span class="fa fa-chevron-right tag"></span><span class="fa fa-folder"></span><label>worksapce</label></div>
             </li>
         </ul>
@@ -59,8 +106,55 @@
     <div style="min-height: 20px; min-width: 100%"></div>
 </div>
 
-<div id="tab_bottom">
-    <label id="filename_show">xx</label>
+    <div id="tab_bottom">
+        <label id="filename_show"></label>
+    </div>
 </div>
+<div id="modal_cover"></div>
+<?php
+/**
+ * load content menu data from plugins
+ */
+if(count($content_menu) > 0) {
+    echo '<ul id="content_menu" class="menu_wrapper">';
+    foreach($content_menu as $menus) {
+        echo setPluginItem("li", $menus);
+    }
+    echo '</ul>';
+}
+
+/**
+ * load folder menu data from plugins
+ */
+if(count($folder_menu) > 0) {
+    echo '<ul id="folder_menu" class="menu_wrapper">';
+    foreach($folder_menu as $menus) {
+        echo setPluginItem("li", $menus);
+    }
+    echo '</ul>';
+}
+
+/**
+ * 读取plugins的modal dialog
+ */
+
+if(is_array($plugins_modal) && count($plugins_modal) > 0) {
+    foreach($plugins_modal as $v) {
+        loadPluginsModal($v['plugin_dir'], $v['file']);
+    }
+}
+
+/**
+ * 读取plugins的基本配置信息
+ * 会生成code_script元素在页面上，该元素设置的js文件会在页面加载完成后加载
+ * 也就是说每个plugins的启动js文件在这里加载
+ */
+if(is_array($plugins_config) && count($plugins_config)>0) {
+    foreach($plugins_config as $v) {
+        echo setPluginItem("code_script", $v);
+    }
+}
+?>
+
 </body>
 </html>
