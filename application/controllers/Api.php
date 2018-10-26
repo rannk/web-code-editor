@@ -180,4 +180,8 @@ class api extends CI_Controller
 
         echo json_encode($arr);
     }
+
+    public function test() {
+        phpinfo();
+    }
 }

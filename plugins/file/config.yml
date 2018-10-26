@@ -1,6 +1,6 @@
 plugin_config:
     plugin_name: file plugins
-    executeJs: /plugins/file/js/autoload.js
+    executeJs: js/autoload.js
     version: 1.0
 
 nav_menu:
@@ -8,19 +8,19 @@ nav_menu:
       submenu:
          add_new_file:
              name: $lang:add_new_file
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: newfile
          add_new_folder:
              name: $lang:add_new_folder
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: newfolder
          rename:
              name: $lang:rename
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: rename
          delete:
              name: $lang:delete
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: delete
       name: $lang:file
 
@@ -42,31 +42,31 @@ icons_menu:
 folder_menu:
          add_new_file:
              name: $lang:add_new_file
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: newfile
          add_new_folder:
              name: $lang:add_new_folder
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: newfolder
          rename:
              name: $lang:rename
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: rename
          delete:
              name: $lang:delete
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: delete
 
 content_menu:
          save:
              name: $lang:save
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: save
          rename:
              name: $lang:rename
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: rename
          delete:
              name: $lang:delete
-             executeJs: /plugins/file/js/operation.js
+             executeJs: js/operation.js
              executeAction: delete

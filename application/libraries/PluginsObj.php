@@ -103,6 +103,7 @@ class PluginsObj
             foreach ($config_arr as $k => $v) {
                 if($k == "plugin_config") {
                     $default_plugins = $v;
+                    $v['plugin_dir'] = $plugin_dir;
                     $this->plugin_config[] = $v;
                     break;
                 }
@@ -113,6 +114,7 @@ class PluginsObj
                 if($default_plugins['version']) {
                     $v = $this->addDefaultAttr($v, "version", $default_plugins['version']);
                 }
+                $v = $this->addDefaultAttr($v, "plugin_dir", $plugin_dir);
 
                 //设置顶部导航栏中菜单的配置信息
                 if($k == "nav_menu") {

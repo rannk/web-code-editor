@@ -74,9 +74,17 @@ function setPluginItem($tag, $arr) {
     $content = "<" . $tag . "";
     $name = "";
     if(is_array($arr) && count($arr) > 0) {
+        $plugin_dir = "";
+        foreach ($arr as $k => $v) {
+            if($k == "plugin_dir") {
+                $plugin_dir = $v;
+                break;
+            }
+        }
         foreach($arr as $k => $v) {
             switch($k) {
                 case "executeJs":
+                    $v = checkFileSitePath($plugin_dir, $v);
                     $content .= " op_file='{$v}'";
                     break;
                 case "executeAction":
@@ -133,15 +141,24 @@ function loadPluginsModal($plugin_dir, $modal_file) {
  * @return string
  */
 function checkFilePath($plugin_dir, $filename) {
-    if(strlen($filename) > 0 && substr($filename, 0, 1) == "/") {
-        return $filename;
-    }else {
+    if($plugin_dir != "" && strlen($filename) > 0 && substr($filename, 0, 1) != "/") {
         $dir = str_replace("\\", "/", __DIR__);
         $dir = str_replace("application/helpers", "", $dir);
         return $dir . "plugins/" . $plugin_dir . "/" . $filename;
     }
+
+    return $filename;
 }
 
+function checkFileSitePath($plugin_dir, $filename) {
+    $site_path = str_replace("/index.php", "", $_SERVER['SCRIPT_NAME']);
+    if($plugin_dir != "" && strlen($filename) > 0 && substr($filename, 0, 1) != "/") {
+        return $site_path . "/plugins/" . $plugin_dir . "/" . $filename;
+    }
+
+    return $site_path . $filename;
+
+}
 /**
  * 合并配置文件
  * 合并要求：如果原先没有元素，则增加新的元素
