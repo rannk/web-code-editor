@@ -6,15 +6,20 @@ You could see demo here: http://code.kuyousoft.com:8182/demo_editor/
 ### requirement:
 1. web server(like apache or nginx) and PHP environment
  
-2. need php ssh ext lib
+2. need these php extension libs
+    
+    * mbstring
+    * ssh2
 ### install
 1. git pull these code or download zip file and unzip
 
 2. put these files into your site directory
 
-3. copy application/config/config_default.php to application/config/config.php
+3. run composer install to download related lib files
 
-4. set the workspace in config.php
+4. copy application/config/config_default.php to application/config/config.php
+
+5. set the workspace info in config.php
 
 we provide these ways to connect your code workspace
     
