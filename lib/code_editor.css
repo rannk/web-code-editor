@@ -16,7 +16,7 @@ code_script {
 }
 
 #top_nav{
-    height: 25px;
+    height: 30px;
     background: #000;
     font-size: 16px;
     color: #fff;
@@ -36,6 +36,13 @@ code_script {
     font-size: 14px;
 }
 
+#touch_menu_icon {
+    padding-top: 8px;
+    padding-left: 10px;
+    right: 20px;
+    position: absolute;
+}
+
 #top_nav_icons {
     height: 25px;
     background: #000;
@@ -47,6 +54,7 @@ code_script {
     border-color: #2e3436;
     border-top-width: thin;
 }
+
 #top_nav_icons::-webkit-scrollbar{
     display: none;
 }
@@ -319,4 +327,59 @@ code_script {
 }
 .loading span:nth-child(5){
     -webkit-animation-delay:0.65s;
+}
+#touch_menu{
+    position:absolute;
+    top:200px; right:30px; width:50px; background:#000;
+    z-index: 80;
+    color: #fff;
+}
+#touch_menu_sub {
+    position:absolute;
+    top:0; right:50px;  background:#000;
+    z-index: 999;
+    color: #fff;
+    font-size: 15px;
+    border-right: solid;
+    border-right-width: thin;
+    border-right-color: #cccccc;
+    min-width: 120px;
+}
+
+#touch_menu ul{
+    padding: 0;
+}
+
+#touch_menu li {
+    min-width: 50px;
+    padding-top: 2px;
+    text-align: center;
+}
+
+#touch_menu_sub ul {
+    padding: 10px;
+}
+
+#touch_menu_sub li {
+    border-bottom: solid;
+    border-bottom-width: thin;
+    border-bottom-color: #cccccc;
+    margin-top: 5px;
+    padding-bottom: 5px;
+}
+#touch_menu li span{
+    border: solid thin;
+    border-color: #000000;
+    padding: 2px;
+    font-size: 40px;
+}
+#touch_menu li span:hover{
+    border-color: #9d9d9d;
+    padding: 2px;
+    background: #2e3436;
+}
+#touch_menu li span.cantdo:hover{
+    border-color: #000000;
+    padding: 2px;
+    background: #000000;
 }

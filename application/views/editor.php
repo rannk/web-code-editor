@@ -60,17 +60,7 @@
         // load menu data end
         ?>
     </div>
-</div>
-<div id="top_nav_icons">
-    <ul>
-        <?php
-        if(count($icons_menu) > 0) {
-            foreach($icons_menu as $k => $v) {
-                echo setPluginItem("li", $v);
-            }
-        }
-        ?>
-    </ul>
+    <div id="touch_menu_icon" style="display: none"><span class="fa fa-tablet"></span></div>
 </div>
 <div style="width: 100%;position:relative;" id="editor_section">
     <div id="workspace" style="padding-top: 15px;">
@@ -108,6 +98,25 @@
 
     <div id="tab_bottom">
         <label id="filename_show"></label>
+    </div>
+</div>
+<div id="touch_menu">
+    <ul>
+        <li><span class="fa fa-window-close" id="minimize_icon"></span></li>
+        <!--<li><span class="fa fa-tasks" id="touch_menu_sub_btn"></span></li>-->
+        <?php
+        if(count($icons_menu) > 0) {
+            foreach($icons_menu as $k => $v) {
+                if(!is_array($v))
+                    continue;
+                echo setPluginItem("li", $v);
+            }
+        }
+        ?>
+    </ul>
+    <div id="touch_menu_sub" style="display: none">
+        <ul>
+        </ul>
     </div>
 </div>
 <div id="modal_cover"></div>
@@ -155,6 +164,5 @@ if(is_array($plugins_config) && count($plugins_config)>0) {
     }
 }
 ?>
-
 </body>
 </html>
