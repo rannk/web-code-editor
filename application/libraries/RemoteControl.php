@@ -2,8 +2,8 @@
 class RemoteControl
 {
 
-    private $connect_type = "sftp";
-    private $connect_obj;
+    protected $connect_type = "sftp";
+    protected $connect_obj;
 
     function __construct()
     {
@@ -18,15 +18,16 @@ class RemoteControl
             case "sftp":
                 require_once ("Controls/SftpControl.php");
                 $this->connect_obj = new SftpControl();
-                $this->connect_obj->setCI(get_instance());
-                $this->connect_obj->connect();
                 break;
             case "local":
                 require_once ("Controls/LocalControl.php");
                 $this->connect_obj = new LocalControl();
-                $this->connect_obj->setCI(get_instance());
-                $this->connect_obj->connect();
                 break;
+        }
+
+        if(is_object($this->connect_obj)) {
+            $this->connect_obj->setCI(get_instance());
+            $this->connect_obj->connect();
         }
     }
 

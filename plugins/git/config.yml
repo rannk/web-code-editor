@@ -1,0 +1,18 @@
+plugin_config:
+    plugin_name: git plugins
+    executeJs: js/autoload.js
+    version: 1.0
+
+modal:
+    - commit.html
+
+nav_menu:
+    tools:
+      submenu:
+         git_commit:
+             name: $lang:git_commit
+             executeJs: js/operation.js
+             executeAction: git.commit
+         git_push:
+             name: $lang:git_push
+      name: $lang:tools

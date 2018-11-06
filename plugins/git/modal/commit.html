@@ -1,0 +1,78 @@
+<div id="modal_git_commit" class="modal blink git_modal">
+    <div class="header">Commit</div>
+    <div class="content">
+        <label>Commit To: </span></label>
+        <div style="margin-top: 10px;">
+            Message:
+            <textarea id="message"></textarea>
+        </div>
+        <div style="margin-top: 20px;">
+            <table id="commit_files">
+            </table>
+        </div>
+        <div style="margin-top: 20px;">
+            <button id="commit_btn" class="btn primary">Commit</button>
+            <button  class="btn close">Cancel</button>
+        </div>
+    </div>
+</div>
+<style>
+    #modal_git_commit{
+        width: 600px;
+    }
+
+    #modal_git_commit .content {
+        background-color: #e8e8e8;
+    }
+    #modal_git_commit table{
+        background-color: #ffffff;
+        width: 100%;
+    }
+    #modal_git_commit thead{
+        background-color: #cccccc;
+    }
+
+    #modal_git_commit #message{
+        width: 100%;
+        min-height: 40px;
+    }
+    #modal_git_commit thead tr{
+        border-right: solid;
+        border-right-width: thin;
+        border-right-color: #fff;
+
+    }
+
+    #modal_git_commit .modified{
+        color: #2e6da4;
+    }
+    #modal_git_commit .deleted{
+        color: #843534;
+    }
+    #modal_git_commit .tag {
+        font-size: 13px;
+        color: #2e6da4;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    #modal_git_commit input {
+        margin: 0;
+        min-height: 15px;
+    }
+    #modal_git_commit td {
+        padding-left: 5px;
+        font-size: 12px;
+    }
+    #modal_git_commit td:nth-child(1) {
+        width: 30px;
+    }
+
+    @media screen and (max-width: 600px) {
+        #modal_git_commit {
+            width: 97%;
+            left: 5px;
+        }
+    }
+    
+</style>

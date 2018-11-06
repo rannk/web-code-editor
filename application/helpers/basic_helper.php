@@ -265,3 +265,8 @@ function outputLog($str) {
         }
     }
 }
+
+function asciiToChar($str) {
+    eval("\$str = \"". $str ."\";");
+    return $str;
+}

@@ -180,4 +180,11 @@ class api extends CI_Controller
 
         echo json_encode($arr);
     }
+
+    public function plugins($dir, $file) {
+        $api_file = checkFilePath($dir, "api/{$file}.php");
+        if(file_exists($api_file)) {
+            include $api_file;
+        }
+    }
 }
