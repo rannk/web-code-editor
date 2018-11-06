@@ -234,12 +234,13 @@ function newFileAction(action) {
         dataType: "json",
         success: function (data) {
             if(data.state == "1") {
-                $.editor.addNewFileToFolder(file_id, data.file_id);
+                $.editor.addNewFileToFolder(file_id, data.file_id, function () {
+                    $("#modal_"+action+"_new #"+action+"_new_btn").btn_wait_recover();
+                    $("#modal_"+action+"_new").modal("hide");
+                });
             } else {
                 console.log(data.msg);
             }
-            $("#modal_"+action+"_new #"+action+"_new_btn").btn_wait_recover();
-            $("#modal_"+action+"_new").modal("hide");
         }
     });
 }
