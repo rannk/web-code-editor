@@ -182,6 +182,12 @@ class api extends CI_Controller
     }
 
     public function test() {
-        phpinfo();
+        $this->load->library('Basic');
+        $data = $this->basic->getPluginsData();
+        $a = array();
+        foreach($a as $v) {
+            echo 'dd';
+        }
+        print_h($data['nav_menu']);
     }
 }

@@ -81,6 +81,10 @@ function setPluginItem($tag, $arr) {
                 break;
             }
         }
+        $menu_icon = "";
+        $sub = "";
+        $sub_icon = "";
+
         foreach($arr as $k => $v) {
             switch($k) {
                 case "executeJs":
@@ -99,10 +103,34 @@ function setPluginItem($tag, $arr) {
                 case "name":
                     $name = $v;
                     break;
+                case "icon":
+                    $menu_icon = "<label class='icon'>" . $v . "</label>";
+                    break;
+                case "submenu":
+                    if(count($v)>0) {
+                        foreach($v as $s_v) {
+                            $sub .= setPluginItem($tag, $s_v);
+                        }
+                    }
+                    break;
+                case "section_class":
+                    if($v == "1") {
+                        $content .= "class='add_line'";
+                    }
+
             }
         }
 
-        $content .= ">" .$name;
+        if($sub) {
+            $sub = '<ul class="menu_wrapper">' . $sub . "</ul>";
+            $sub_icon = '<label class="sub_icon"><span class="fa fa-caret-right"></span></label>';
+        }
+
+        $name = '<div class="text">' . $name . "</div>";
+        if($sub) {
+            $content .= " has_sub='true'";
+        }
+        $content .= ">" . $menu_icon . $name . $sub_icon ."<div class='sub'>$sub</div>";
     }
 
     $content .= "</" . $tag . ">";

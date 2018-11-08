@@ -266,6 +266,38 @@ code_script {
     padding-left: 25px;
     font-size: 12px;
     font-weight: 200;
+    position: relative;
+}
+
+.menu_wrapper li .icon{
+    left: 8px;
+    position: absolute;
+    padding-top: 2px;
+}
+
+.menu_wrapper li .sub{
+    min-height: 40px;
+    position: absolute;
+    left: 118px;
+    top: 0;
+}
+
+.menu_wrapper .text {
+    overflow: hidden;
+    width: 90px;
+    height: 18px;
+}
+.menu_wrapper .sub_icon {
+    right: 5px;
+    position: absolute;
+    top: 8px;
+    color: #666666;
+}
+
+.menu_wrapper .add_line {
+    border-top: solid;
+    border-width: thin;
+    border-color: #8c8c8c;
 }
 
 #main_menu {

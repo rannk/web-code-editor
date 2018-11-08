@@ -16,6 +16,13 @@ class PluginsObj
     var $plugins_modal = array();
     var $lang_temp;
 
+    public function __construct()
+    {
+        $default_settings['file']['name'] = lang("file");
+        $default_settings['tools']['name'] = lang("tools");
+        $this->nav_menu_settings = $default_settings;
+    }
+
     public function loadPlugins() {
         $d = dir(__DIR__ . "/../../plugins");
         while (false !== ($entry = $d->read())) {
@@ -38,6 +45,10 @@ class PluginsObj
                 $config_arr = spyc_load_file($config_file);
                 $this->loadPluginsLang($dir_name);
                 $this->organizeConfig($this->setLangForConfig($config_arr), $dir_name);
+
+                $this->nav_menu_settings = $this->addSectionLineClass($this->nav_menu_settings);
+                $this->folder_menu_settings = $this->addSectionLineClass($this->folder_menu_settings);
+                $this->content_menu_settings = $this->addSectionLineClass($this->content_menu_settings);
             }
         }
     }
@@ -45,6 +56,10 @@ class PluginsObj
     public function loadPluginsLang($dirname) {
         $lang_dir = get_instance()->config->item("language");
         if(!$lang_dir) {
+            $lang_dir = "english";
+        }
+
+        if(!file_exists(__DIR__ . "/../../plugins/" . $dirname . "/language/" . $lang_dir)) {
             $lang_dir = "english";
         }
 
@@ -181,6 +196,29 @@ class PluginsObj
                     $add_attr = true;
                 }
                 $arr[$k] = $this->addDefaultAttr($v, $key, $value, $add_attr);
+            }
+        }
+
+        return $arr;
+    }
+
+    public function addSectionLineClass($arr) {
+        if(!is_array($arr))
+            return $arr;
+
+        $dir = "";
+
+        foreach($arr as $k => $v) {
+            if(is_array($v)) {
+                if($dir != "" && $v['plugin_dir'] != $dir) {
+                    $v['section_class'] = 1;
+                    $arr[$k] = $v;
+                }
+
+                if($v['plugin_dir'] != "")
+                    $dir = $v['plugin_dir'];
+
+                $arr[$k] = $this->addSectionLineClass($v);
             }
         }
 
