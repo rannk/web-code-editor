@@ -24,4 +24,8 @@ class GitControl extends RemoteControl
     public function getTrackFiles() {
         return $this->connect_obj->getTrackFiles();
     }
+
+    public function commitFiles($file, $file_del, $message) {
+        return $this->connect_obj->commitFiles($file, $file_del, $message);
+    }
 }

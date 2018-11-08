@@ -5,6 +5,8 @@ if($.editor.action == "git.commit") {
 
 
 function showGitCommitModal() {
+    $("#modal_git_commit #commit_btn").attr("disabled", false);
+    $("#modal_git_commit #message").val("");
     $("#modal_git_commit").modal("show");
     $("#commit_files").html('<div class="file_loading"><ul type="loading"><li><div class="loading"><span></span><span></span><span></span><span></span><span></span></div></li></ul></div>');
     $.ajax({
@@ -17,6 +19,7 @@ function showGitCommitModal() {
                 var new_str = '<tr><td colspan="3" class="tag">Not Versioned Files:</td></tr>';
                 var has_modified_data, has_new_data, has_data;
                 $.each(data.data, function(idx, item){
+                    has_data = true;
                     if(item.status == "New") {
                         has_new_data = true;
                         new_str += '<tr><td><input type="checkbox"></td><td>'+item.name+'</td><td>New</td></tr>'
@@ -38,6 +41,7 @@ function showGitCommitModal() {
                 }
             }
             if(data.code == "0") {
+                $("#modal_git_commit").modal("hide");
                 alert(data.msg);
             }
             console.log(data);
