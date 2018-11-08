@@ -11,12 +11,6 @@ nav_menu:
              executeJs: js/operation.js
              executeAction: newfile
              icon: '<span class="fa fa-file-text" style="color: #ffffff"></span>'
-             submenu:
-                 add_new_folder:
-                      name: $lang:add_new_folder
-                      executeJs: js/operation.js
-                      executeAction: newfolder
-                      icon: '<span class="fa fa-folder" style="color: #6d9eeb"></span>'
          add_new_folder:
              name: $lang:add_new_folder
              executeJs: js/operation.js

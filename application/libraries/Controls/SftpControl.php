@@ -262,7 +262,7 @@ class SftpControl implements Control
      * @return bool
      * @throws Exception
      */
-    public function cmd($cmd, &$content) {
+    public function cmd($cmd, &$content = "") {
         $stream = ssh2_exec($this->connection, $cmd);
         $stderr_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         stream_set_blocking($stream, true);

@@ -180,14 +180,4 @@ class api extends CI_Controller
 
         echo json_encode($arr);
     }
-
-    public function test() {
-        $this->load->library('Basic');
-        $data = $this->basic->getPluginsData();
-        $a = array();
-        foreach($a as $v) {
-            echo 'dd';
-        }
-        print_h($data['nav_menu']);
-    }
 }
