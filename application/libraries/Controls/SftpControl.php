@@ -75,13 +75,16 @@ class SftpControl implements Control
 
         $workspace = $this->workspace_dir . $path;
 
-        $stream = ssh2_exec($this->connection, 'ls -la ' . $workspace);
+        $stream = "";
+
+        $this->cmd( 'ls -la ' . $workspace, $stream);
 
         $folder_arr = array();
         $file_arr = array();
         $folder_str = "";
-        while (!feof($stream)) {
-            $content = fgets($stream, 8192);
+        $stream_arr = explode("\n", $stream);
+        for($i=0;$i<count($stream_arr);$i++){
+            $content = trim($stream_arr[$i]);
             if($content && substr($content, 0, 5) != "total") {
                 $input = array();
 
@@ -114,29 +117,22 @@ class SftpControl implements Control
             }
         }
 
-        $this->connect();
-
-        $stream = ssh2_exec($this->connection, 'cd ' . $workspace . " && ls " . $folder_str);
+        $this->cmd('cd ' . $workspace . " && ls ./ " . $folder_str, $stream);
 
         $i = 0;
         if($stream) {
-            $point = false;
-            while (!feof($stream)) {
-                $content = fgets($stream, 8192);
+            $stream_arr = explode("\n", $stream);
+            for($ii=0;$ii<count($stream_arr);$ii++){
+                $content = trim($stream_arr[$ii]);
                 if($content) {
-                    if($point) {
-                        if(strlen($content) > 1) {
-                            $folder_arr[$i]['hasfile'] = 1;
-
-                        }
-                        $i++;
-                        $point = false;
-                    }
-
                     $findme = $folder_arr[$i]['name'];
                     $content = str_replace("\n", "", $content);
                     if($content == $findme . ":"){
-                        $point = true;
+                        if(trim(strlen($stream_arr[$ii+1])) > 1) {
+                            $folder_arr[$i]['hasfile'] = 1;
+                        }
+                        $ii++;
+                        $i++;
                     }
                 }
             }
@@ -266,7 +262,7 @@ class SftpControl implements Control
      * @return bool
      * @throws Exception
      */
-    public function cmd($cmd) {
+    public function cmd($cmd, &$content) {
         $stream = ssh2_exec($this->connection, $cmd);
         $stderr_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         stream_set_blocking($stream, true);
