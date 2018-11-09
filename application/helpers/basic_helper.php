@@ -145,6 +145,10 @@ function setPluginItem($tag, $arr) {
  */
 function loadPluginsModal($plugin_dir, $modal_file) {
     $lang_dir = get_instance()->config->item("language");
+    if(!file_exists(__DIR__ . "/../../plugins/" . $plugin_dir . "/language/" . $lang_dir)) {
+        $lang_dir = "english";
+    }
+
     if(is_dir(__DIR__ . "/../../plugins/" . $plugin_dir . "/language/" . $lang_dir) && file_exists($modal_file)) {
         $d = dir(__DIR__ . "/../../plugins/" . $plugin_dir . "/language/" . $lang_dir);
         while (false !== ($entry = $d->read())) {
