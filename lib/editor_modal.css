@@ -39,7 +39,10 @@
     padding: 5px;
 }
 
-.modal input {
+.modal label {
+    font-weight: bold;
+}
+.modal input[type='text'] {
     border-radius: 5px;
     border: solid thin;
     border-color: #8c8c8c;

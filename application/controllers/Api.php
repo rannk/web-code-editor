@@ -10,6 +10,7 @@ class api extends CI_Controller
             return;
 
         $file = stringConvert($_REQUEST['file'], CONVERT_STR_SITE_TO_SYSTEM);
+
         $this->load->library('RemoteControl');
         echo $this->remotecontrol->getFileContent($file);
     }
@@ -179,5 +180,12 @@ class api extends CI_Controller
         }
 
         echo json_encode($arr);
+    }
+
+    public function plugins($dir, $file) {
+        $api_file = checkFilePath($dir, "api/{$file}.php");
+        if(file_exists($api_file)) {
+            include $api_file;
+        }
     }
 }

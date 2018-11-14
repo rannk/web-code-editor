@@ -75,6 +75,8 @@ class SftpControl implements Control
 
         $workspace = $this->workspace_dir . $path;
 
+        $workspace = str_replace(" ", "\ ", $workspace);
+
         $stream = "";
 
         $this->cmd( 'ls -la ' . $workspace, $stream);
@@ -90,9 +92,24 @@ class SftpControl implements Control
 
 
                 $arr = explode(" ", $content);
-                $filename = $arr[count($arr) - 1];
+
+                $filename = "";
+                $key_i = 0;
+                for($f_i=0;$f_i<count($arr);$f_i++) {
+                    if($arr[$f_i] != "") {
+                        $key_i++;
+                    }
+                    if($key_i > 8) {
+                        if($f_i >= count($arr) - 1) {
+                            $filename .= $arr[$f_i];
+                        }else {
+                            $filename .= $arr[$f_i] . " ";
+                        }
+                    }
+                }
+
                 $filename = str_replace("\n", "", $filename);
-                if($filename == "." || $filename == "..")
+                if($filename == "." || $filename == ".." || $filename == ".git")
                     continue;
 
                 $file_path = $path . "/" . $filename;
@@ -106,7 +123,7 @@ class SftpControl implements Control
                 if($type == "d") {
                     $input['type'] = "folder";
                     $folder_arr[] = $input;
-                    $folder_str .= $filename ." ";
+                    $folder_str .= addQuoteForString($filename) ." ";
                 }
 
                 if($type == "-") {
@@ -127,8 +144,9 @@ class SftpControl implements Control
                 if($content) {
                     $findme = $folder_arr[$i]['name'];
                     $content = str_replace("\n", "", $content);
+
                     if($content == $findme . ":"){
-                        if(trim(strlen($stream_arr[$ii+1])) > 1) {
+                        if(trim(strlen($stream_arr[$ii+1])) > 0) {
                             $folder_arr[$i]['hasfile'] = 1;
                         }
                         $ii++;
@@ -196,9 +214,9 @@ class SftpControl implements Control
 
             if($sys == "win") {
                 $path = str_replace("/", "\\", $workspace . $file);
-                $cmd = "type nul > " . $path;
+                $cmd = "type nul > " . str_replace(" ", "\ ", $path);
             }else {
-                $cmd = "touch " . $workspace . $file;
+                $cmd = "touch " . str_replace(" ", "\ ", $workspace . $file);
             }
 
             return $this->cmd($cmd);

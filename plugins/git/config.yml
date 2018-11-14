@@ -1,0 +1,34 @@
+plugin_config:
+    plugin_name: git plugins
+    executeJs: js/autoload.js
+    version: 1.0
+
+modal:
+    - commit.html
+
+nav_menu:
+    tools:
+      submenu:
+         git_commit:
+             name: $lang:git_commit
+             executeJs: js/operation.js
+             executeAction: git.commit
+         git_cmd:
+             submenu:
+                 git_push:
+                     name: $lang:git_push
+                     executeJs: js/operation.js
+                     executeAction: git.push
+                     icon: '<span class="fa fa-level-up" style="color: #274e13"></span>'
+                 git_pull:
+                     name: $lang:git_pull
+                     executeJs: js/operation.js
+                     executeAction: git.pull
+                     icon: '<span class="fa fa-level-down" style="color: #274e13"></span>'
+                 git_checkout:
+                     name: $lang:git_checkout
+                     executeJs: js/operation.js
+                     executeAction: git.switch
+                     icon: '<span class="fa fa-exchange" style="color: #274e13"></span>'
+             name: $lang:git_name
+             icon: '<span class="fa fa-github" style="color: #6d9eeb"></span>'

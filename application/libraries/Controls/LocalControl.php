@@ -74,7 +74,7 @@ class LocalControl implements Control
         $folder_arr = array();
         $file_arr = array();
         while (false !== ($entry = $d->read())) {
-            if($entry == "." || $entry == "..")
+            if($entry == "." || $entry == ".." || $entry == ".git")
                 continue;
             $input = array();
 
@@ -159,16 +159,19 @@ class LocalControl implements Control
     {
         $workspace = $this->workspace_dir;
 
+        $filepath = addQuoteForString($workspace . $file);
+        outputLog($filepath);
         if(file_exists($workspace . $file)) {
             throw new Exception("file already exists");
             return;
         }
+
         // 这里使用系统命令来添加文件
         if(substr(PHP_OS, 0, 3) == "WIN") {
-            $path = str_replace("/", "\\", $workspace . $file);
+            $path = str_replace("/", "\\", $filepath);
             $cmd = "type nul > " . $path;
         }else {
-            $cmd = "touch " . $workspace . $file;
+            $cmd = "touch " . $filepath;
         }
 
         return $this->cmd($cmd);
@@ -185,7 +188,7 @@ class LocalControl implements Control
         }
 
         // 这里使用系统命令来添加目录
-        $cmd = "mkdir " . $path;
+        $cmd = "mkdir " . addQuoteForString($path);
 
         return $this->cmd($cmd);
     }
@@ -202,7 +205,7 @@ class LocalControl implements Control
      * @return bool
      * @throws Exception
      */
-    public function cmd($cmd) {
+    public function cmd($cmd, &$content = "") {
         $descriptorspec = array(
             0 => array("pipe", "r"),  // 标准输入，子进程从此管道中读取数据
             1 => array("pipe", "w"),  // 标准输出，子进程向此管道中写入数据
@@ -214,7 +217,7 @@ class LocalControl implements Control
         if ($proc == false) {
             throw new Exception("command run failed:" . $cmd);
         } else {
-            $stdout = trim(stream_get_contents($pipes[1]));
+            $content = trim(stream_get_contents($pipes[1]));
             fclose($pipes[1]);
             $stderr = trim(stream_get_contents($pipes[2]));
             fclose($pipes[2]);
