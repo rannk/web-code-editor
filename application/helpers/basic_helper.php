@@ -270,3 +270,18 @@ function asciiToChar($str) {
     eval("\$str = \"". $str ."\";");
     return $str;
 }
+
+/**
+ * 如果输入的字符串有空格，给字符串打双引号
+ * 主要用于文件名
+ * @param $string
+ * @return string
+ */
+function addQuoteForString($string) {
+    $string = trim($string);
+    if(stripos($string, " ")) {
+        return '"' . $string . '"';
+    }
+
+    return $string;
+}

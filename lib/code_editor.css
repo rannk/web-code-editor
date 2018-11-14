@@ -256,11 +256,12 @@ code_script {
     border-color: #8c8c8c;
 }
 
-.menu_wrapper .active {
+.menu_wrapper>.active {
     background: #0000ff;
+}
+.menu_wrapper>.active>.text, .menu_wrapper>.active>.icon, .menu_wrapper>.active>.sub_icon{
     color: #ffffff;
 }
-
 .menu_wrapper li {
     padding: 5px;
     padding-left: 25px;

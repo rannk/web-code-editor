@@ -26,8 +26,6 @@ if($.editor.action == "delete") {
     }
 }
 
-$(".menu_wrapper").hide();
-$(".menu_wrapper[display_menu='true']").attr("display_menu", "");
 
 function showRenameModal(id) {
     var name = $("#workspace li[file_id='"+id+"']").attr("name");

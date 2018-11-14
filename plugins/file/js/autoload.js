@@ -239,7 +239,9 @@ function newFileAction(action) {
                     $("#modal_"+action+"_new").modal("hide");
                 });
             } else {
-                console.log(data.msg);
+                alert(data.msg);
+                $("#modal_"+action+"_new #"+action+"_new_btn").btn_wait_recover();
+                $("#modal_"+action+"_new").modal("hide");
             }
         }
     });

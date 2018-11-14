@@ -10,6 +10,7 @@ class api extends CI_Controller
             return;
 
         $file = stringConvert($_REQUEST['file'], CONVERT_STR_SITE_TO_SYSTEM);
+
         $this->load->library('RemoteControl');
         echo $this->remotecontrol->getFileContent($file);
     }

@@ -5,16 +5,20 @@ $gObj = new GitControl();
 
 if($_REQUEST['action'] == "add") {
     $arr['code'] = 0;
-    $lists = $gObj->getTrackFiles();
-    if(is_string($lists)) {
-        $arr['msg'] =  $lists;
+    $results = $gObj->getTrackFiles();
+    $arr['branch'] = $results['branch'];
+    if(is_string($results['lists'])) {
+        $arr['msg'] =  $results['lists'];
     }
 
-    if(is_array($lists)) {
+    if(is_array($results['lists'])) {
         $arr['code'] = 1;
-        $arr['data'] = $lists;
+        $arr['data'] = $results['lists'];
     }
 
+    $results = $gObj->getGlobal();
+    $arr['name'] = $results['name'];
+    $arr['email'] = $results['email'];
     echo json_encode($arr);
 }
 
@@ -35,7 +39,7 @@ if($_REQUEST['action'] == "commit") {
         }
     }
 
-    $content = $gObj->commitFiles($files, $files_del, $_REQUEST['message']);
+    $content = $gObj->commitFiles($files, $files_del, str_replace('"', '\"', $_REQUEST['message']), $_REQUEST['name'], $_REQUEST['email']);
 
     if(stripos($content, "no changes added to commit")) {
         $content = "no changes added to commit";
@@ -44,3 +48,61 @@ if($_REQUEST['action'] == "commit") {
     echo $content;
 }
 
+if($_REQUEST['action'] == "branch") {
+    $arr['code'] = 0;
+    $results = $gObj->getBranchs();
+    if(is_string($results)) {
+        $arr['msg'] =  $results;
+    }
+
+    if(is_array($results)) {
+        $arr['code'] = 1;
+        $arr['data'] = $results;
+    }
+
+    echo json_encode($arr);
+}
+
+if($_REQUEST['action'] == "checkout") {
+    $branch = $_REQUEST['branch'];
+    $new_branch = $_REQUEST['new_branch'];
+
+    echo $gObj->checkout($branch, $new_branch);
+}
+
+if($_REQUEST['action'] == "pull") {
+    $arr['code'] = 1;
+    try{
+        $branch = $results = $gObj->getCurrentBranch();
+    }catch(Exception $e) {
+        $arr['code'] = 0;
+        $branch = $e->getMessage();
+    }
+
+    $arr['msg'] = $branch;
+    echo json_encode($arr);
+}
+
+if($_REQUEST['action'] == "push") {
+    $arr['code'] = 1;
+    $arr['msg'] = htmlentities($gObj->getLastestCommit());
+    $arr['remote'] = $gObj->getRemote();
+    echo json_encode($arr);
+}
+
+if($_REQUEST['action'] == "pull_op") {
+    echo htmlentities($gObj->pull());
+}
+
+if($_REQUEST['action'] == "push_op") {
+    $force = $_REQUEST['f'];
+    $remote = $_REQUEST['remote'];
+
+    try{
+        $content = $gObj->push($remote, $force);
+    }catch (Exception $e) {
+        $content = $e->getMessage();
+    }
+
+    echo htmlentities($content);
+}

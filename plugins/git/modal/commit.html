@@ -1,12 +1,16 @@
 <div id="modal_git_commit" class="modal blink git_modal">
     <div class="header">Commit</div>
     <div class="content">
-        <label>Commit To: </span></label>
+        <label>Commit To: <span id="git_branch"></span></label>
         <div style="margin-top: 10px;">
             Message:
             <textarea id="message"></textarea>
         </div>
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 10px;">
+            <label>Author:</label><br><input type="text" id="author"><br>
+            <label>Email:</label><br><input type="text" id="email">
+        </div>
+        <div style="margin-top: 10px;">
             <table id="commit_files">
             </table>
         </div>
@@ -16,6 +20,51 @@
         </div>
     </div>
 </div>
+
+<div id="modal_git_switch" class="modal blink git_modal">
+    <div class="header">Switch/Checkout</div>
+    <div class="content">
+        <div id="switch_content">
+            <label>Switch</label>
+            <div style="margin-top: 10px;">
+                Branch: <select id="branch_lists"><option>development</option></select>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <label>Options</label>
+                <div>
+                    <input type="checkbox" style="min-height: 10px;" id="git_create_checkbox">
+                    Create new Branch:
+                    <input type="text" value="" disabled="disabled" id="git_new_branch_name">
+                </div>
+            </div>
+        </div>
+
+        <div id="content_loading">
+            <div class="file_loading"><ul type="loading"><li><div class="loading"><span></span><span></span><span></span><span></span><span></span></div></li></ul></div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button id="switch_btn" class="btn primary">OK</button>
+            <button  class="btn close">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal_git_msg" class="modal blink git_modal">
+    <div class="header">Switch/Checkout</div>
+    <div class="content">
+        <div class="body"></div>
+        <div id="content_loading">
+            <div class="file_loading"><ul type="loading"><li><div class="loading"><span></span><span></span><span></span><span></span><span></span></div></li></ul></div>
+        </div>
+        <div style="margin-top: 20px;">
+            <button id="msg_btn" class="btn primary">OK</button>
+            <button  class="btn close">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <style>
     #modal_git_commit{
         width: 600px;
@@ -69,7 +118,7 @@
     }
 
     @media screen and (max-width: 600px) {
-        #modal_git_commit {
+        #modal_git_commit, .git_modal {
             width: 97%;
             left: 5px;
         }
