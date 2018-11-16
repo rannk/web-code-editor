@@ -25,8 +25,12 @@ class GitControl extends RemoteControl
 
     public function checkGitActived() {
         $cmd = "cd {$this->workspace_dir} && git branch";
+        $content = "";
         try{
-            $this->connect_obj->cmd($cmd);
+            $this->connect_obj->cmd($cmd, $content);
+            if(stripos($content, "Not a git repository")) {
+                return false;
+            }
         }catch (Exception $e) {
             return false;
         }
