@@ -23,6 +23,17 @@ class GitControl extends RemoteControl
         }
     }
 
+    public function checkGitActived() {
+        $cmd = "cd {$this->workspace_dir} && git branch";
+        try{
+            $this->connect_obj->cmd($cmd);
+        }catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function getTrackFiles() {
         $cmd = "cd {$this->workspace_dir} && git status";
         $content = "";
