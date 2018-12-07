@@ -59,9 +59,14 @@ class CMDControl extends RemoteControl
             }
 
             $cmd = $this->getGotoWorkspaceDirCmd() . $script_full_path;
+            try{
+                $this->connect_obj->cmd($cmd, $output);
+                unlink($script_full_path);
+            }catch (Exception $e){
+                unlink($script_full_path);
+                throw new Exception($e->getMessage());
+            }
 
-            $this->connect_obj->cmd($cmd, $output);
-            unlink($script_full_path);
             return true;
         }else {
             throw new Exception("command file is not existed");
@@ -74,7 +79,12 @@ class CMDControl extends RemoteControl
         if(@ssh2_sftp_realpath($sftp, "/tmp")) {
             $content = "";
             ssh2_scp_send($this->connect_obj->connection, $script_full_path, "/tmp/". $filename, 0777);
-            $this->connect_obj->cmd($this->getGotoWorkspaceDirCmd() . "/tmp/". $filename, $content);
+            try{
+                $this->connect_obj->cmd($this->getGotoWorkspaceDirCmd() . "/tmp/". $filename, $content);
+            }catch (Exception $e) {
+                throw new Exception($e->getMessage());
+            }
+
             return true;
         }else {
             throw new Exception("ssh: temp folder is not existed");

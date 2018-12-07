@@ -77,6 +77,7 @@ function runCmd() {
     $content = "";
     try{
         $obj->runCmd($_REQUEST['cmd_id'], $content, $_POST);
+        outputLog($content . "111");
         $r['status'] = 1;
         $r['content'] = $content;
     }catch (Exception $e) {
