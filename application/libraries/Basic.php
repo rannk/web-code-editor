@@ -8,6 +8,7 @@ require_once ("PluginsObj.php");
 class Basic
 {
     var $records_file;
+    var $workspace_unique_id;
 
     function __construct(){
         $CI = & get_instance();
@@ -20,8 +21,9 @@ class Basic
 
         $workspace = str_replace("\\", "/", $CI->config->item("workspace_dir"));
         $workspace = preg_replace('/(\/{0,}$)/', "", $workspace);
-        $workspace_unique = md5($workspace .$host);
-        $this->records_file = $cache_dir . "/editor_{$workspace_unique}.ed";
+        $this->workspace_unique_id = md5($workspace .$host);
+        $this->records_file = $cache_dir . "/editor_{$this->workspace_unique_id}.ed";
+        setErrorAsException(__FILE__);
     }
 
     /**
@@ -46,6 +48,10 @@ class Basic
      * @return mixed
      */
     public function getOpenFiles() {
+        return $this->getParams("openfiles");
+    }
+
+    public function getParams($key) {
         if(file_exists($this->records_file)) {
             $handle = fopen($this->records_file, "r");
             if ($handle) {
@@ -56,8 +62,34 @@ class Basic
 
                 fclose($handle);
 
-                return json_decode($contents,true);
+                $arr = json_decode($contents,true);
+
+                return $arr[$key];
             }
+        }
+    }
+
+    public function saveParams($key, $values) {
+        try{
+            $contents = "";
+            if(file_exists($this->records_file)) {
+                $handle = fopen($this->records_file, "r");
+                while (!feof($handle)) {
+                    $contents .= fread($handle, 8192);
+                }
+
+                fclose($handle);
+            }
+
+            $arr = json_decode($contents,true);
+
+            $arr[$key] = $values;
+            $handle = fopen($this->records_file, "w");
+            if ($handle) {
+                fwrite($handle, json_encode($arr));
+            }
+        }catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -113,12 +145,7 @@ class Basic
             }
         }
 
-        $content = json_encode($records);
-
-        $handle = fopen($this->records_file, "w");
-        if ($handle) {
-            fwrite($handle, $content);
-        }
+        $this->saveParams("openfiles", $records);
     }
 
     /**
@@ -146,13 +173,7 @@ class Basic
                 }
             }
 
-            $content = json_encode($new_arr);
-
-            $handle = fopen($this->records_file, "w");
-            if ($handle) {
-                fwrite($handle, $content);
-                fclose($handle);
-            }
+            $this->saveParams("openfiles", $new_arr);
         }
     }
 
@@ -191,13 +212,7 @@ class Basic
             }
         }
 
-        $content = json_encode($old_records);
-
-        $handle = fopen($this->records_file, "w");
-        if ($handle) {
-            fwrite($handle, $content);
-            fclose($handle);
-        }
+        $this->saveParams("openfiles", $old_records);
     }
 
     /**
@@ -216,13 +231,8 @@ class Basic
                 $records[$k]['active'] = "";
             }
             $records[$file_id]['active'] = "active";
-            $content = json_encode($records);
 
-            $handle = fopen($this->records_file, "w");
-            if ($handle) {
-                fwrite($handle, $content);
-                fclose($handle);
-            }
+            $this->saveParams("openfiles", $records);
         }
     }
 }

@@ -98,6 +98,8 @@
 
     <div id="tab_bottom">
         <label id="filename_show"></label>
+        <label id="icons_show">
+        </label>
     </div>
 </div>
 <div id="touch_menu">

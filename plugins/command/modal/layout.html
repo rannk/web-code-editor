@@ -1,0 +1,95 @@
+<div id="modal_command_new" class="modal blink cmd_modal">
+    <div class="header"><?=$lang['new']?></div>
+    <div class="content">
+        <div id="cmd_content">
+            <label><?=$lang['script_title']?>:</label><input type="hidden" id="cmd_id">
+            <input type="text" id="command_title"><br>
+            <div>
+                <label><?=$lang['command_script']?></label><br>
+                <?=$lang['these_value_could_use']?>:<br>
+                $file_name : <?=$lang['explain_file_name']?>
+            </div>
+            <textarea id="script"></textarea>
+            <button id="save" class="btn primary"><?=$lang['add']?></button>
+            <button  class="btn close"><?=$lang['cancel']?></button>
+        </div>
+    </div>
+
+</div>
+
+<div id="modal_command_lists" class="modal blink cmd_modal">
+    <div class="header"><?=$lang['lists']?></div>
+    <div class="content">
+        <ul>
+        </ul>
+        <button id="run" class="btn primary"><?=$lang['run']?></button>
+        <button id="edit" class="btn primary"><?=$lang['edit']?></button>
+        <button  class="btn close"><?=$lang['cancel']?></button>
+    </div>
+</div>
+
+<div id="modal_command_display" class="modal blink cmd_modal">
+    <div class="header"></div>
+    <label id="cmd_min"><span class="fa fa-window-minimize"></span></label>
+    <div class="content" style="background: #ffffff">
+        <div id="cmd_display" index="0">
+            <button  class="btn all_close"><?=$lang['close']?></button>
+        </div>
+    </div>
+</div>
+
+<div style="display: none">
+    <span id="command_lang_alert_title"><?=$lang['title_cant_empty']?></span>
+    <span id="command_lang_alert_script"><?=$lang['script_cant_empty']?></span>
+</div>
+<style>
+    .cmd_modal {
+        width: 400px;
+    }
+    #modal_command_new #command_title {
+        width: 80%;
+    }
+    #modal_command_new textarea {
+        width: 100%;
+        height: 100px;
+    }
+
+    #modal_command_lists ul {
+        padding: 0;
+    }
+    #modal_command_lists li {
+        min-height: 25px;
+        padding-left: 5px;
+        padding-top: 5px;
+    }
+    #modal_command_lists .active {
+        background: #2e6da4;
+        color: #ffffff;
+    }
+
+    @media screen and (max-width: 600px) {
+        .cmd_modal {
+            width: 97%;
+            left: 5px;
+        }
+    }
+
+    #cmd_display .display{
+        word-break: break-all;
+        overflow-y:scroll;
+        max-height: 400px;
+    }
+
+    #cmd_min {
+        position: absolute;
+        right: 20px;
+        background: #ffffff;
+        top: 5px;
+        width: 18px;
+        padding-left: 5px;
+        height: 20px;
+        border: solid;
+        border-color: #cccccc;
+        border-width: thin;
+    }
+</style>

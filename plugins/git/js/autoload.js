@@ -50,12 +50,6 @@ $("#commit_btn").click(function () {
     });
 });
 
-$(".git_modal .close").click(function () {
-    $("#modal_git_commit").modal("hide");
-    $("#modal_git_switch").modal("hide");
-    $("#modal_git_msg").modal("hide");
-});
-
 $("#git_create_checkbox").change(function () {
     if($(this).is(":checked")) {
         $("#git_new_branch_name").attr("disabled", false);

@@ -1,0 +1,23 @@
+plugin_config:
+    plugin_name: Command
+    executeJs: js/autoload.js
+    version: 1.0
+
+modal:
+    - layout.html
+
+nav_menu:
+    tools:
+      submenu:
+         codeception:
+             name: $lang:command
+             submenu:
+                 cmd_new:
+                     name: $lang:new
+                     executeJs: js/operation.js
+                     executeAction: command.new
+                 cmd_lists:
+                     name: $lang:lists
+                     executeJs: js/operation.js
+                    executeAction: command.lists
+

@@ -52,13 +52,6 @@ $("#file_save_icon").click(function () {
     }
 })
 
-$(".file_modal .close").click(function () {
-    $("#modal_file_rename").modal("hide");
-    $("#modal_file_delete").modal("hide");
-    $("#modal_file_new").modal("hide");
-    $("#modal_folder_new").modal("hide");
-});
-
 // 更名modal提交后的处理
 $("#modal_file_rename #file_rename").click(function () {
 

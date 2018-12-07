@@ -285,3 +285,36 @@ function addQuoteForString($string) {
 
     return $string;
 }
+
+/**
+ * 设置PHP内置函数的错误信息作为异常抛出
+ * 指定在特定程序文件中会生效，其它的按默认方式输出错误信息
+ * @param $full_path_file 指定默认的生效的程序文件，需要绝对的路径，可以采用 __FILE__方法获取
+ */
+function setErrorAsException($full_path_file) {
+    global $_REG_E_FILES;
+    if(is_array($_REG_E_FILES)) {
+        for($i=0;$i<count($_REG_E_FILES);$i++) {
+            if($full_path_file == $_REG_E_FILES[$i])
+                break;
+        }
+
+        if($i >= count($_REG_E_FILES)) {
+            $_REG_E_FILES[] = $full_path_file;
+        }
+    }else {
+        $_REG_E_FILES[] = $full_path_file;
+    }
+
+    set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
+        global $_REG_E_FILES;
+        if(is_array($_REG_E_FILES) && in_array($errfile, $_REG_E_FILES)) {
+            if(in_array($errno, array(E_USER_WARNING, E_USER_ERROR, E_WARNING, E_ERROR))) {
+                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+                return;
+            }
+        }
+
+        _error_handler($errno, $errstr, $errfile, $errline );
+    });
+}

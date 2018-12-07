@@ -416,3 +416,13 @@ code_script {
     padding: 2px;
     background: #000000;
 }
+
+#icons_show {
+    float: right;
+    padding-right: 10px;
+}
+
+#icons_show span {
+    margin-top: 3px;
+    margin-right: 5px;
+}
