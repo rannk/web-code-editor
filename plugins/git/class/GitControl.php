@@ -24,7 +24,7 @@ class GitControl extends RemoteControl
     }
 
     public function checkGitActived() {
-        $cmd = "cd {$this->workspace_dir} && git branch";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git branch";
         $content = "";
         try{
             $this->connect_obj->cmd($cmd, $content);
@@ -39,7 +39,7 @@ class GitControl extends RemoteControl
     }
 
     public function getTrackFiles() {
-        $cmd = "cd {$this->workspace_dir} && git status";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git status";
         $content = "";
 
         try{
@@ -132,14 +132,14 @@ class GitControl extends RemoteControl
             return "please fill the author and email";
         }
 
-        $cmd = "cd {$this->workspace_dir} && git config --global user.name " . addQuoteForString($name);
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git config --global user.name " . addQuoteForString($name);
         try{
             $this->connect_obj->cmd($cmd);
         }catch (Exception $e) {
             return $e->getMessage();
         }
 
-        $cmd = "cd {$this->workspace_dir} && git config --global user.email " . addQuoteForString($email);
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git config --global user.email " . addQuoteForString($email);
         try{
             $this->connect_obj->cmd($cmd);
         }catch (Exception $e) {
@@ -147,7 +147,7 @@ class GitControl extends RemoteControl
         }
 
         if($file) {
-            $cmd = "cd {$this->workspace_dir} && git add " . $file;
+            $cmd = $this->getGotoWorkspaceDirCmd() . "git add " . $file;
             try{
                 $this->connect_obj->cmd($cmd, $content);
             }catch (Exception $e) {
@@ -156,7 +156,7 @@ class GitControl extends RemoteControl
         }
 
         if($file_del) {
-            $cmd = "cd {$this->workspace_dir} && git rm " . $file_del;
+            $cmd = $this->getGotoWorkspaceDirCmd() . "git rm " . $file_del;
             try{
                 $this->connect_obj->cmd($cmd, $content);
             }catch (Exception $e) {
@@ -169,7 +169,7 @@ class GitControl extends RemoteControl
         }
 
 
-        $cmd = "cd {$this->workspace_dir} && git commit -m \"" . $message . "\"";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git commit -m \"" . $message . "\"";
 
         try{
             $this->connect_obj->cmd($cmd, $content);
@@ -184,7 +184,7 @@ class GitControl extends RemoteControl
      * @return array|string
      */
     public function getBranchs() {
-        $cmd = "cd {$this->workspace_dir} && git branch";
+        $cmd =  $this->getGotoWorkspaceDirCmd() . "git branch";
         $content = "";
         try{
             $this->connect_obj->cmd($cmd, $content);
@@ -221,7 +221,7 @@ class GitControl extends RemoteControl
     }
 
     public function getLastestCommit($n = 1) {
-        $cmd = "cd {$this->workspace_dir} && git log -n " . $n;
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git log -n " . $n;
         $content = "";
 
         try{
@@ -235,7 +235,7 @@ class GitControl extends RemoteControl
     }
 
     public function getRemote() {
-        $cmd = "cd {$this->workspace_dir} && git remote";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git remote";
         $content = "";
 
         $arr = array();
@@ -254,7 +254,7 @@ class GitControl extends RemoteControl
     }
 
     public function checkout($branch, $new_branch = "") {
-        $cmd = "cd {$this->workspace_dir} && git checkout " . $branch;
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git checkout " . $branch;
         $content = "";
 
         try{
@@ -270,7 +270,7 @@ class GitControl extends RemoteControl
             }
         }
         if($new_branch) {
-            $cmd = "cd {$this->workspace_dir} && git branch " . $new_branch;
+            $cmd = $this->getGotoWorkspaceDirCmd() . "git branch " . $new_branch;
             try{
                 $this->connect_obj->cmd($cmd);
             }catch (Exception $e) {
@@ -278,7 +278,7 @@ class GitControl extends RemoteControl
             }
 
             try{
-                $this->connect_obj->cmd("cd {$this->workspace_dir} && git checkout " . $new_branch, $content);
+                $this->connect_obj->cmd($this->getGotoWorkspaceDirCmd() . "git checkout " . $new_branch, $content);
             }catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -288,7 +288,7 @@ class GitControl extends RemoteControl
     }
 
     public function pull() {
-        $cmd = "cd {$this->workspace_dir} && git pull";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git pull";
         $content = "";
 
         try{
@@ -321,7 +321,7 @@ class GitControl extends RemoteControl
         }
 
         if($branch) {
-            $cmd = "cd {$this->workspace_dir} && git push $f $remote $branch";
+            $cmd = $this->getGotoWorkspaceDirCmd() . "git push $f $remote $branch";
             try{
                 $this->connect_obj->cmd($cmd, $content);
             }catch (Exception $e) {
@@ -339,7 +339,7 @@ class GitControl extends RemoteControl
      * @throws Exception
      */
     public function getGlobal() {
-        $cmd = "cd {$this->workspace_dir} && git config --global user.name";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git config --global user.name";
         $content = "";
 
         try{
@@ -350,7 +350,7 @@ class GitControl extends RemoteControl
 
         $arr['name'] = trim($content);
 
-        $cmd = "cd {$this->workspace_dir} && git config --global user.email";
+        $cmd = $this->getGotoWorkspaceDirCmd() . "git config --global user.email";
         $content = "";
 
         try{

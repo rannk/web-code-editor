@@ -13,6 +13,47 @@ class RemoteControl
         $this->initConnect();
     }
 
+    /**
+     * 获取工作空间系统类型
+     */
+    public function getWorkspaceSysType() {
+        $cmd = "uname";
+        $content = "";
+        try{
+            $this->connect_obj->cmd($cmd, $content);
+            if(!(stripos($content, "MSYS") === false)) {
+                return "Win";
+            }
+        }catch (Exception $e) {
+            return "Win";
+        }
+
+        return "Linux";
+    }
+
+    /**
+     * 获取移动到工作空间的命令
+     * 主要与其它命令相衔接，如果有命令需要移动到工作空间下执行，会用到这个
+     */
+    public function getGotoWorkspaceDirCmd() {
+        $workspace = $this->connect_obj->workspace_dir;
+        $cmd = "";
+        if($this->getWorkspaceSysType() == "Win") {
+            $arr = explode(":", $workspace);
+            if($arr[0]){
+                $cmd .= $arr[0] . ": &";
+            }
+
+            if($arr[1]) {
+                $cmd .= " cd " . $arr[1] . " & ";
+            }
+        }else {
+            $cmd = "cd " . $workspace . " && ";
+        }
+
+        return $cmd;
+    }
+
     public function initConnect() {
         switch ($this->connect_type) {
             case "sftp":
