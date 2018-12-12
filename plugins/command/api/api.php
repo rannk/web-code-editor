@@ -76,12 +76,11 @@ function runCmd() {
     $r['status'] = "0";
     $content = "";
     try{
-        $obj->runCmd($_REQUEST['cmd_id'], $content, $_POST);
-        outputLog($content . "111");
+        $obj->runCmd($_REQUEST['cmd_id'], $content, $_REQUEST);
         $r['status'] = 1;
         $r['content'] = $content;
     }catch (Exception $e) {
-        $r['content'] = $content . "\n" . $e->getMessage();
+        $r['content'] = $content . "\n<div style='color: red'>" . $e->getMessage() . "</div>";
     }
 
     echo json_encode($r);
