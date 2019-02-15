@@ -9,6 +9,7 @@ require_once ("Control.php");
 class LocalControl implements Control
 {
     var $workspace_dir;
+    var $workspace_type;
     var $tmp_dir;
 
     public function connect(){
@@ -18,6 +19,7 @@ class LocalControl implements Control
     public function setCI(& $CI) {
         $params['workspace_dir'] = $CI->config->item("workspace_dir");
         $params['temp_dir'] = $CI->config->item("temp_file_dir");
+        $params['workspace_type'] = $CI->config->item("workspace_type");
 
         $this->setConfiguration($params);
     }
@@ -25,6 +27,7 @@ class LocalControl implements Control
     public function setConfiguration($params) {
         $this->workspace_dir = $params['workspace_dir'];
         $this->tmp_dir = $params['temp_dir'];
+        $this->workspace_type = $params['workspace_type'];
     }
 
     public function getFileContent($filename){
@@ -232,6 +235,17 @@ class LocalControl implements Control
             }else {
                 return true;
             }
+        }
+    }
+
+    public function getHintContent() {
+        switch($this->workspace_type) {
+            case "php":
+                $this->cmd('php ' . __DIR__ . '/../HintCol/php_class_col.php "'.$this->workspace_dir.'"', $content);
+                return $content;
+                break;
+            default:
+                return;
         }
     }
 }

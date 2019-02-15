@@ -10,11 +10,13 @@
 <script src="mode/javascript/javascript.js"></script>
 <script src="mode/htmlmixed/htmlmixed.js"></script>
 <script src="mode/php/php.js"></script>
+<script src="mode/python/python.js"></script>
 <script src="mode/shell/shell.js"></script>
 <script src="mode/sql/sql.js"></script>
 <script src="addon/hint/show-hint.js"></script>
 <script src="addon/hint/xml-hint.js"></script>
 <script src="addon/hint/html-hint.js"></script>
+<?php loadWorkspaceTypeJs()?>
 <body <?php if (getDevModel()) echo 'dev_model="true"'?>>
 <div id="top_nav">
     <div class="nav_item" id="btn_workspace">

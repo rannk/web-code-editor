@@ -188,4 +188,11 @@ class api extends CI_Controller
             include $api_file;
         }
     }
+
+    public function getHintContent() {
+        $this->load->library('RemoteControl');
+        $content = $this->remotecontrol->getHintContent();
+
+        print_r($content);
+    }
 }

@@ -318,3 +318,14 @@ function setErrorAsException($full_path_file) {
         _error_handler($errno, $errstr, $errfile, $errline );
     });
 }
+
+function loadWorkspaceTypeJs() {
+    $type = get_instance()->config->item("workspace_type");
+    $type = strtolower($type);
+    switch($type) {
+        case "php":
+            echo '<script src="addon/hint/phpclass-hint.js"></script><script src="addon/hint/php-hint-col.js"></script>';
+            break;
+        default:
+    }
+}
