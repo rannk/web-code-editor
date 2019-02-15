@@ -176,4 +176,12 @@ class RemoteControl
             return md5($filename);
         }
     }
+
+    public function getHintContent() {
+        if(!$this->connect_obj) {
+            $this->initConnect();
+        }
+
+        return $this->connect_obj->getHintContent();
+    }
 }

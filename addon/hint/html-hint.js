@@ -342,6 +342,7 @@
   function htmlHint(cm, options) {
     var local = {schemaInfo: data};
     if (options) for (var opt in options) local[opt] = options[opt];
+    console.log(CodeMirror.hint.xml(cm, local));
     return CodeMirror.hint.xml(cm, local);
   }
   CodeMirror.registerHelper("hint", "html", htmlHint);

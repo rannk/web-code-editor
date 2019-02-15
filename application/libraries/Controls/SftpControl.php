@@ -13,6 +13,7 @@ class SftpControl implements Control
     var $password;
     var $port;
     var $workspace_dir;
+    var $workspace_type;
     var $connection;
     var $tmp_dir;
 
@@ -28,6 +29,7 @@ class SftpControl implements Control
         $params['workspace_dir'] = $CI->config->item("workspace_dir");
         $params['port'] = $CI->config->item("conn_port");
         $params['temp_dir'] = $CI->config->item("temp_file_dir");
+        $params['workspace_type'] = $CI->config->item("workspace_type");
 
         $this->setConfiguration($params);
     }
@@ -39,6 +41,7 @@ class SftpControl implements Control
         $this->workspace_dir = $params['workspace_dir'];
         $this->port = $params['port'];
         $this->tmp_dir = $params['temp_dir'];
+        $this->workspace_type = $params['workspace_type'];
     }
 
     public function getFileContent($filename){
@@ -294,4 +297,16 @@ class SftpControl implements Control
         }
     }
 
+    public function getHintContent() {
+        switch($this->workspace_type) {
+            case "php":
+                ssh2_scp_send($this->connection, __DIR__ . '/../HintCol/php_class_col.php', '/tmp/php_class_col.php');
+                $this->cmd('php /tmp/php_class_col.php "'.$this->workspace_dir.'"', $content);
+                $this->cmd("rm -f /tmp/php_class_col.php");
+                return $content;
+                break;
+            default:
+                return;
+        }
+    }
 }
