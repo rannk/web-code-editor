@@ -16,6 +16,7 @@
 <script src="addon/hint/show-hint.js"></script>
 <script src="addon/hint/xml-hint.js"></script>
 <script src="addon/hint/html-hint.js"></script>
+<script src="lib/drag_div.js"></script>
 <?php loadWorkspaceTypeJs()?>
 <body <?php if (getDevModel()) echo 'dev_model="true"'?>>
 <div id="top_nav">
@@ -66,6 +67,7 @@
 </div>
 <div style="width: 100%;position:relative;" id="editor_section">
     <div id="workspace" style="padding-top: 15px;">
+        <div id="workspace_handle">|</div>
         <ul>
             <li type="folder" root="yes" name="workspace" file="/">
                 <div class="filename"><span class="fa fa-chevron-right tag"></span><span class="fa fa-folder"></span><label>worksapce</label></div>
@@ -168,5 +170,6 @@ if(is_array($plugins_config) && count($plugins_config)>0) {
     }
 }
 ?>
+
 </body>
 </html>
