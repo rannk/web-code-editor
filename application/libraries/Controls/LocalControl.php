@@ -208,7 +208,7 @@ class LocalControl implements Control
      * @return bool
      * @throws Exception
      */
-    public function cmd($cmd, &$content = "") {
+    public function cmd($cmd, &$content = "", $output_callback = false) {
         $descriptorspec = array(
             0 => array("pipe", "r"),  // 标准输入，子进程从此管道中读取数据
             1 => array("pipe", "w"),  // 标准输出，子进程向此管道中写入数据
@@ -220,7 +220,15 @@ class LocalControl implements Control
         if ($proc == false) {
             throw new Exception("command run failed:" . $cmd);
         } else {
-            $content = trim(stream_get_contents($pipes[1]));
+            $handle = $pipes[1];
+            $content = "";
+            while (($buffer = fgets($handle, 4096)) !== false) {
+                if($output_callback) {
+                    call_user_func($output_callback, $buffer);
+                }
+                $content .= $buffer;
+            }
+
             fclose($pipes[1]);
             $stderr = trim(stream_get_contents($pipes[2]));
             fclose($pipes[2]);

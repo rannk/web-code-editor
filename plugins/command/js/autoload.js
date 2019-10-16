@@ -48,37 +48,18 @@ $("#modal_command_lists #run").click(function () {
 
 
 
+    $("#cmd_display_iframe").attr("src", "");
     $("#modal_command_lists").modal("hide");
     $("#modal_command_display").modal("show");
     $("#modal_command_display .header").html(cmd_name);
-    $("#cmd_display").modal("loading");
+    //$("#cmd_display").modal("loading");
 
     var data = "cmd_id=" + cmd_id + "&filename=" + open_file_name;
 
     cmd_id = cmd_id + "_" + index;
     $("#cmd_display").attr("run_id", cmd_id);
     $("#cmd_display").attr("index", parseInt(index)+1);
-
-    $.ajax({
-        type: 'post',
-        url: "index.php/api/plugins/command/api?action=run",
-        data: data,
-        dataType: "json",
-        success: function (data) {
-            var reg = new RegExp("\n","g")
-            var ele = "<div class='display' id='cmd_" + cmd_id + "'>";
-
-            ele += data.content.replace(reg, "<br>");
-            ele += "</div>";
-            $("#cmd_display").prepend(ele);
-            $("#cmd_display").modal("loading_end");
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            var ele = "<div class='display' id='cmd_" + cmd_id + "'>operate error</div>";
-            $("#cmd_display").prepend(ele);
-            $("#cmd_display").modal("loading_end");
-        }
-    });
+    $("#cmd_display").prepend('<iframe  id="cmd_'+cmd_id+'" class="display" src="index.php/api/plugins/command/api?action=real_time&'+data+'"></iframe>');
 });
 
 $("#modal_command_display #cmd_min").click(function () {
@@ -102,9 +83,9 @@ $("#modal_command_display #cmd_min").click(function () {
             var show_cmd_id = "#cmd_display #cmd_" + $("#cmd_min_" + cmd_id).attr("cmd_id");
             if($(show_cmd_id).length > 0) {
                 $("#cmd_display #cmd_" + $("#cmd_min_" + cmd_id).attr("cmd_id")).show();
-                $("#cmd_display").modal("loading_end");
+                //$("#cmd_display").modal("loading_end");
             }else {
-                $("#cmd_display").modal("loading");
+                //$("#cmd_display").modal("loading");
             }
 
             $("#modal_command_display").modal("show");

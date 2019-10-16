@@ -14,6 +14,9 @@ switch ($_REQUEST['action']) {
     case "get_one":
         get_one();
         break;
+    case "real_time":
+        real_time_run_cmd();
+        break;
 }
 
 function newCmd() {
@@ -84,4 +87,18 @@ function runCmd() {
     }
 
     echo json_encode($r);
+}
+
+function real_time_run_cmd() {
+    ob_end_clean();
+    ob_implicit_flush(1);
+    $obj = new CMDControl();
+    try{
+        $obj->runCmd($_REQUEST['cmd_id'], $content, $_REQUEST, function($content){
+            echo $content . "<br>";
+        });
+    }catch (Exception $e) {
+        echo "<div style='color: red'>" . $e->getMessage() . "</div>";
+    }
+
 }

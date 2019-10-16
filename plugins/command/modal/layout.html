@@ -41,7 +41,7 @@
     $("#modal_command_lists").dragDivResize();
     $("#modal_command_display").dragDivResize();
     $("#modal_command_display").on("div_change", function (e, t) {
-        $("#cmd_display .display").css("max-height", ($(t).height() - 92) + "px");
+        $("#cmd_display .display").css("height", ($(t).height() - 92) + "px");
     });
 </script>
 <div style="display: none">
@@ -83,7 +83,8 @@
     #cmd_display .display{
         word-break: break-all;
         overflow-y:scroll;
-        max-height: 400px;
+        height: 400px;
+        width: 100%;
     }
 
     #cmd_min {

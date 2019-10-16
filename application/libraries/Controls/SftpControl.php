@@ -283,12 +283,20 @@ class SftpControl implements Control
      * @return bool
      * @throws Exception
      */
-    public function cmd($cmd, &$content = "") {
+    public function cmd($cmd, &$content = "", $output_callback = false) {
         $stream = ssh2_exec($this->connection, $cmd);
         $stderr_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         stream_set_blocking($stream, true);
         stream_set_blocking($stderr_stream, true);
-        $content = trim(stream_get_contents($stream));
+
+        $content = "";
+        while (($buffer = fgets($stream, 4096)) !== false) {
+            if($output_callback) {
+                call_user_func($output_callback, $buffer);
+            }
+            $content .= $buffer;
+        }
+
         $err_msg = trim(stream_get_contents($stderr_stream));
         if(!$err_msg) {
             return true;

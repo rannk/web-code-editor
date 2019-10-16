@@ -9,7 +9,7 @@ class CMDControl extends RemoteControl
         setErrorAsException(__FILE__);
     }
 
-    public function runCmd($id, &$content, $param = array()) {
+    public function runCmd($id, &$content, $param = array(), $output_callback = false) {
         $CI = & get_instance();
         $CI->load->library("basic");
         $arr = $CI->basic->getParams("command");
@@ -31,10 +31,10 @@ class CMDControl extends RemoteControl
 
                 switch($this->connect_type) {
                     case "sftp":
-                        return $this->runCmdBySsh($cache_dir . "/" . $cmd_filename, $cmd_filename, $content);
+                        return $this->runCmdBySsh($cache_dir . "/" . $cmd_filename, $cmd_filename, $content, $output_callback);
                         break;
                     case "local":
-                        return $this->runCmdInLocal($cache_dir . "/" . $cmd_filename, $content);
+                        return $this->runCmdInLocal($cache_dir . "/" . $cmd_filename, $content, $output_callback);
                         break;
                 }
 
@@ -45,7 +45,7 @@ class CMDControl extends RemoteControl
         }
     }
 
-    public function runCmdInLocal($script_full_path, &$output) {
+    public function runCmdInLocal($script_full_path, &$output, $output_callback = false) {
 
         if(file_exists($script_full_path)) {
 
@@ -60,7 +60,7 @@ class CMDControl extends RemoteControl
 
             $cmd = $this->getGotoWorkspaceDirCmd() . $script_full_path;
             try{
-                $this->connect_obj->cmd($cmd, $output);
+                $this->connect_obj->cmd($cmd, $output, $output_callback);
                 unlink($script_full_path);
             }catch (Exception $e){
                 unlink($script_full_path);
@@ -73,14 +73,14 @@ class CMDControl extends RemoteControl
         }
     }
 
-    public function runCmdBySsh($script_full_path, $filename, &$content) {
+    public function runCmdBySsh($script_full_path, $filename, &$content,$output_callback = false) {
         $sftp = ssh2_sftp($this->connect_obj->connection);
         $workspace = $this->connect_obj->workspace_dir;
         if(@ssh2_sftp_realpath($sftp, "/tmp")) {
             $content = "";
             ssh2_scp_send($this->connect_obj->connection, $script_full_path, "/tmp/". $filename, 0777);
             try{
-                $this->connect_obj->cmd($this->getGotoWorkspaceDirCmd() . "/tmp/". $filename, $content);
+                $this->connect_obj->cmd($this->getGotoWorkspaceDirCmd() . "/tmp/". $filename, $content, $output_callback);
             }catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
