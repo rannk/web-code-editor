@@ -32,12 +32,18 @@
     <div class="header"></div>
     <label id="cmd_min"><span class="fa fa-window-minimize"></span></label>
     <div class="content" style="background: #ffffff">
-        <div id="cmd_display" index="0">
+        <div id="cmd_display" index="0" style="height: 100%">
             <button  class="btn all_close"><?=$lang['close']?></button>
         </div>
     </div>
 </div>
-
+<script>
+    $("#modal_command_lists").dragDivResize();
+    $("#modal_command_display").dragDivResize();
+    $("#modal_command_display").on("div_change", function (e, t) {
+        $("#cmd_display .display").css("max-height", ($(t).height() - 92) + "px");
+    });
+</script>
 <div style="display: none">
     <span id="command_lang_alert_title"><?=$lang['title_cant_empty']?></span>
     <span id="command_lang_alert_script"><?=$lang['script_cant_empty']?></span>
