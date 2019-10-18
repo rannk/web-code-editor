@@ -1,0 +1,27 @@
+<div id="modal_project_new" class="modal blink">
+    <div class="header"><?=$lang['new_project']?></div>
+    <div class="content">
+        <div id="project_content">
+            <label><?=$lang['project_title']?>:</label>
+            <input type="text" id="project_title"><br>
+            <label><?=$lang['project_directory']?>:</label>
+            <input type="text" id="project_dir"><br>
+            <label><?=$lang['connect_type']?>:</label>
+            <select id="connect_type"><option value="SFTP" selected>SFTP</option></select><br>
+            <label><?=$lang['server_ip']?>:</label>
+            <input type="text" id="server_ip"><br>
+            <label><?=$lang['server_port']?>:</label>
+            <input type="text" id="server_port" value="22"><br>
+            <button id="save" class="btn primary"><?=$lang['add']?></button>
+            <button  class="btn close"><?=$lang['cancel']?></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    #modal_project_new label{
+        text-align: right;
+        width: 120px;
+        display: inline-block;
+    }
+</style>

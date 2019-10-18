@@ -159,6 +159,27 @@ function loadPluginsModal($plugin_dir, $modal_file) {
             include (__DIR__ . "/../../plugins/" . $plugin_dir . "/language/" . $lang_dir . "/" . $entry);
 
         }
+
+        // 读取modal内容，判断语言变量是否存在值，如果不存在则把key转换测value
+        if(file_exists($modal_file)) {
+            $file_content = file_get_contents($modal_file);
+            $matches = array();
+            preg_match_all("/lang\[['\"](.*)['\"]\]/", $file_content, $matches);
+            for($i=0;$i<count($matches[1]);$i++) {
+                $key = $matches[1][$i];
+                if(!$lang[$key]) {
+                    $key = str_replace("_", " ", $key);
+                    $key = str_replace("-", " ", $key);
+                    $key_arr = explode(" ", $key);
+                    $key_content = "";
+                    foreach($key_arr as $key_v) {
+                        $key_content .= ucfirst($key_v). " ";
+                    }
+                    $lang[$matches[1][$i]] = $key_content;
+                }
+            }
+        }
+
         include ($modal_file);
         $d->close();
     }
