@@ -67,7 +67,7 @@ class LocalControl implements Control
         fclose($handle);
     }
 
-    public function getFolderLists($path = ""){
+    public function getFolderLists($path = "", $ignore_files = array(), $keep_files = array()){
         if($path == "/") {
             $path = "";
         }
@@ -76,8 +76,14 @@ class LocalControl implements Control
         $d = dir($workspace);
         $folder_arr = array();
         $file_arr = array();
+
+        $ignore_files[] = ".";
+        $ignore_files[] = "..";
+        $ignore_files[] = ".git";
+
+
         while (false !== ($entry = $d->read())) {
-            if($entry == "." || $entry == ".." || $entry == ".git")
+            if(in_array($entry, $ignore_files) && !in_array($entry, $keep_files))
                 continue;
             $input = array();
 

@@ -147,7 +147,6 @@ function showGitCommitModal() {
                 }
             }
             $("#modal_git_commit #git_branch").html(data.branch);
-            console.log(data);
         },
         dataType: "json"
     });

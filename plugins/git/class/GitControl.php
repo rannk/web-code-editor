@@ -81,7 +81,7 @@ class GitControl extends RemoteControl
             }
 
             if($track == "n") {
-                if(stripos($line, "ntracked files") || stripos($line, "what will be committed)")) {
+                if(stripos($line, "ntracked files") || stripos($line, "what will be committed)") || stripos($line, "../")) {
                     continue;
                 }
                 preg_match("/([\w\-.\/x80-xff ]{1,})/", $line, $matches);
@@ -94,7 +94,7 @@ class GitControl extends RemoteControl
                             $j++;
                         }
                     }else {
-                        $lists[$j]['name'] = stringConvert(asciiToChar($matches[0]), 1);
+                        $lists[$j]['name'] = asciiToChar($matches[0]);
                         $lists[$j]['status'] = "New";
                         $j++;
                     }
@@ -373,7 +373,15 @@ class GitControl extends RemoteControl
     public function getFolderFiles($path) {
         $path = asciiToChar($path);
         $arr = array();
-        $file_lists = $this->connect_obj->getFolderLists($path);
+        $file_lists = $this->connect_obj->getFolderLists($path, array(), array(".git"));
+
+        // git文件中不应该有.git, node_moduless(NODE repo)文件
+        for($i=0;$i<count($file_lists);$i++) {
+            if($file_lists[$i]['name'] == ".git" || $file_lists[$i]['name'] == "node_modules") {
+                return $arr;
+            }
+        }
+
         for($i=0;$i<count($file_lists);$i++) {
             $file = $file_lists[$i];
             if($file['type'] == "folder") {

@@ -10,7 +10,7 @@
             <label>Author:</label><br><input type="text" id="author"><br>
             <label>Email:</label><br><input type="text" id="email">
         </div>
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 10px;" id="commit_files_div">
             <table id="commit_files">
             </table>
         </div>
@@ -64,7 +64,9 @@
         </div>
     </div>
 </div>
-
+<script>
+    $("#modal_git_commit").dragDivResize();
+</script>
 <style>
     #modal_git_commit{
         width: 600px;
@@ -115,6 +117,11 @@
     }
     #modal_git_commit td:nth-child(1) {
         width: 30px;
+    }
+
+    #commit_files_div {
+        width: 100%;
+        overflow: scroll;
     }
 
     @media screen and (max-width: 600px) {

@@ -71,7 +71,7 @@ class SftpControl implements Control
         ssh2_scp_send($this->connection, $from, $this->workspace_dir . $to);
     }
 
-    public function getFolderLists($path = ""){
+    public function getFolderLists($path = "", $ignore_files = array(), $keep_files = array()){
         if($path == "/") {
             $path = "";
         }
@@ -88,6 +88,11 @@ class SftpControl implements Control
         $file_arr = array();
         $folder_str = "";
         $stream_arr = explode("\n", $stream);
+
+        $ignore_files[] = ".";
+        $ignore_files[] = "..";
+        $ignore_files[] = ".git";
+
         for($i=0;$i<count($stream_arr);$i++){
             $content = trim($stream_arr[$i]);
             if($content && substr($content, 0, 5) != "total") {
@@ -112,7 +117,8 @@ class SftpControl implements Control
                 }
 
                 $filename = str_replace("\n", "", $filename);
-                if($filename == "." || $filename == ".." || $filename == ".git")
+
+                if(in_array($filename, $ignore_files) && !in_array($filename, $keep_files))
                     continue;
 
                 $file_path = $path . "/" . $filename;
