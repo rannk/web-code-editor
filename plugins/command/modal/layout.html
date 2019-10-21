@@ -1,4 +1,4 @@
-<div id="modal_command_new" class="modal blink cmd_modal">
+<div id="modal_command_new" class="modal blink cmd_modal drag_div">
     <div class="header"><?=$lang['new']?></div>
     <div class="content">
         <div id="cmd_content">
@@ -17,7 +17,7 @@
 
 </div>
 
-<div id="modal_command_lists" class="modal blink cmd_modal">
+<div id="modal_command_lists" class="modal blink cmd_modal drag_div">
     <div class="header"><?=$lang['lists']?></div>
     <div class="content">
         <ul>
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div id="modal_command_display" class="modal blink cmd_modal">
+<div id="modal_command_display" class="modal blink cmd_modal drag_div">
     <div class="header"></div>
     <label id="cmd_min"><span class="fa fa-window-minimize"></span></label>
     <div class="content" style="background: #ffffff">
@@ -38,8 +38,6 @@
     </div>
 </div>
 <script>
-    $("#modal_command_lists").dragDivResize();
-    $("#modal_command_display").dragDivResize();
     $("#modal_command_display").on("div_change", function (e, t) {
         $("#cmd_display .display").css("height", ($(t).height() - 92) + "px");
     });

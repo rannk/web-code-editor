@@ -16,7 +16,7 @@
 #modal_cover {
     min-height: 100%;
     min-width: 100%;
-    background:#000; filter:alpha(opacity:0); opacity:0;
+    background:#5e5e5e; filter:alpha(opacity:0); opacity:0.6;
     position: absolute;
     z-index: 100;
     top:0;

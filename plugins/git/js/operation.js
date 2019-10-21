@@ -59,7 +59,7 @@ function showGitMsgModal(type) {
 
     $("#modal_git_msg #msg_btn").html(btn_msg);
     $("#modal_git_msg .header").html(title);
-    $("#modal_git_msg").show();
+    $("#modal_git_msg").modal("show");
     $("#modal_git_msg .body").hide();
     $("#modal_git_msg #msg_btn").attr("disabled", false);
     $.ajax({

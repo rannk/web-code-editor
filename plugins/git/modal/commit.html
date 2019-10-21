@@ -1,4 +1,4 @@
-<div id="modal_git_commit" class="modal blink git_modal">
+<div id="modal_git_commit" class="modal blink git_modal drag_div">
     <div class="header">Commit</div>
     <div class="content">
         <label>Commit To: <span id="git_branch"></span></label>
@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div id="modal_git_switch" class="modal blink git_modal">
+<div id="modal_git_switch" class="modal blink git_modal drag_div">
     <div class="header">Switch/Checkout</div>
     <div class="content">
         <div id="switch_content">
@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<div id="modal_git_msg" class="modal blink git_modal">
+<div id="modal_git_msg" class="modal blink git_modal drag_div">
     <div class="header">Switch/Checkout</div>
     <div class="content">
         <div class="body"></div>
@@ -64,9 +64,6 @@
         </div>
     </div>
 </div>
-<script>
-    $("#modal_git_commit").dragDivResize();
-</script>
 <style>
     #modal_git_commit{
         width: 600px;
