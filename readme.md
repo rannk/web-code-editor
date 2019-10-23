@@ -19,18 +19,17 @@ You could see demo here: http://code.kuyousoft.com:8182/demo_editor/
 
 4. copy application/config/config_default.php to application/config/config.php
 
-5. set the workspace info in config.php
+5. set application/config/project directory to writable
+
+6. start your web server then use browser to visit, you would see the editor.
+
+7. click File->New Project to create a new project
 
 we provide these ways to connect your code workspace
     
     local: the code workspace in the web server
   
     sftp: the code workspace in the other remote server, and this server has ssh service.  
-if your workspace in your web server, just set $config['conn_type'] = 'local' in the config.php
 
-    $config['workspace_dir'] set your workspace directory in config.php
 
-5. start your web server then use browser to visit, you would see the editor.
-
- 
     

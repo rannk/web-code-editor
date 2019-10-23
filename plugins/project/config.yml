@@ -15,4 +15,6 @@ nav_menu:
              executeAction: project.new
          project_open:
              name: $lang:open_project
+             executeJs: js/operation.js
+             executeAction: project.open
 

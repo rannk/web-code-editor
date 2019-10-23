@@ -9,10 +9,18 @@ class Basic
 {
     var $records_file;
     var $workspace_unique_id;
+    var $global_config_file;
 
     function __construct(){
         $CI = & get_instance();
         $cache_dir = $CI->config->item("cache_file_dir");
+        $this->global_config_file = $cache_dir . "/editor_global_config.ed";
+
+        // 如果当前没有项目，调用项目配置文件，查看是否有活跃项目配置
+        if(!$CI->config->item("workspace_dir")) {
+            $this->setCurrentActiveProject();
+        }
+
         if($CI->config->item("connect_type") == "local") {
             $host = "local";
         }else {
@@ -23,7 +31,68 @@ class Basic
         $workspace = preg_replace('/(\/{0,}$)/', "", $workspace);
         $this->workspace_unique_id = md5($workspace .$host);
         $this->records_file = $cache_dir . "/editor_{$this->workspace_unique_id}.ed";
+
+
+
         setErrorAsException(__FILE__);
+    }
+
+    function projectAcitve() {
+        $CI = & get_instance();
+        try{
+            $CI->load->library('RemoteControl');
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+
+    function setCurrentActiveProject($title = "") {
+        $CI = & get_instance();
+
+        //  获取当前活跃项目
+        $projects = $this->getGlobalConfig("projects");
+        $p = array();
+        $content = "<?php\n" . '$config["project_title"] = "";';
+        for($i=0;$i<count($projects);$i++) {
+            if($title) {
+                $projects[$i]['active'] = "";
+                if($title == $projects[$i]['project_title']) {
+                    $p = $projects[$i];
+                    $projects[$i]['active'] = 1;
+                }
+            }else {
+                if($projects[$i]['active'] == 1) {
+                    $p = $projects[$i];
+                }
+            }
+
+            if(count($p)>0) {
+                $CI->config->set_item("connect_type", $p['connect_type']);
+                $CI->config->set_item("conn_host", $p['server_ip']);
+                $CI->config->set_item("workspace_dir", $p['project_dir']);
+                $CI->config->set_item("conn_username", $p['connect_user']);
+                $CI->config->set_item("conn_password", $p['user_password']);
+                $CI->config->set_item("conn_port", $p['server_port']);
+                $CI->config->set_item("project_title", $p['project_title']);
+
+                $content = "<?php\n";
+                $content .= '$config["connect_type"] = "' .  $p['connect_type'] . '";' . "\n";
+                $content .= '$config["conn_host"] = "' .  $p['server_ip'] . '";' . "\n";
+                $content .= '$config["workspace_dir"] = "' .  $p['project_dir'] . '";' . "\n";
+                $content .= '$config["conn_username"] = "' .  $p['connect_user'] . '";' . "\n";
+                $content .= '$config["conn_password"] = "' .  $p['user_password'] . '";' . "\n";
+                $content .= '$config["conn_port"] = "' .  $p['server_port'] . '";' . "\n";
+                $content .= '$config["project_title"] = "' .  $p['project_title'] . '";' . "\n";
+
+
+            }
+        }
+        $fp = fopen(__DIR__ ."/../config/project/config.php", "w");
+        fwrite($fp, $content);
+        fclose($fp);
+        $this->saveGlobalConfig("projects", $projects);
     }
 
     /**
@@ -94,6 +163,32 @@ class Basic
     }
 
     /**
+     * 获取编辑器全局配置信息
+     * @param $key
+     * @return mixed
+     */
+    public function getGlobalConfig($key) {
+        $records_file = $this->records_file;
+        $this->records_file = $this->global_config_file;
+        $vals = $this->getParams($key);
+        $this->records_file = $records_file;
+        return $vals;
+    }
+
+    /**
+     * 保存编辑器全局配置
+     * @param $key
+     * @param $value
+     */
+    public function saveGlobalConfig($key, $value) {
+        $records_file = $this->records_file;
+        $this->records_file = $this->global_config_file;
+        $vals = $this->saveParams($key, $value);
+        $this->records_file = $records_file;
+        return $vals;
+    }
+
+    /**
      * get current workspace opening files and these files should exist in workspace.
      * @return array
      */
@@ -104,10 +199,10 @@ class Basic
         //estimate the opening files exist in workspace
         //if the file not exist, remove it from cache list.
         $CI = & get_instance();
-        $CI->load->library('RemoteControl');
-        $RemoteControl = $CI->remotecontrol;
 
         if(count($arr) > 0) {
+            $CI->load->library('RemoteControl');
+            $RemoteControl = $CI->remotecontrol;
             foreach($arr as $k => $v) {
                 if(!$v['file'])
                     continue;

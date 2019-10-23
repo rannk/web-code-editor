@@ -11,12 +11,18 @@ class RemoteControl
         $this->connect_type = $CI->config->item("connect_type");
 
         $this->initConnect();
+
+        setErrorAsException(__FILE__);
     }
 
     /**
      * 获取工作空间系统类型
      */
     public function getWorkspaceSysType() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = "uname";
         $content = "";
         try{
@@ -68,7 +74,14 @@ class RemoteControl
 
         if(is_object($this->connect_obj)) {
             $this->connect_obj->setCI(get_instance());
-            $this->connect_obj->connect();
+            try{
+                $this->connect_obj->connect();
+            }catch (Exception $e){
+                throw new Exception($e->getMessage());
+                $this->connect_obj = false;
+            }
+        }else {
+            throw new Exception("The project is not set");
         }
     }
 
@@ -78,7 +91,7 @@ class RemoteControl
 
     public function getFileContent($filename) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         $content = $this->connect_obj->getFileContent($filename);
@@ -88,7 +101,7 @@ class RemoteControl
 
     public function getFolderLists($path) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         return $this->connect_obj->getFolderLists($path);
@@ -96,7 +109,7 @@ class RemoteControl
 
     public function saveFile($filename, $content) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         if(substr($filename, -1) == "/") {
@@ -115,7 +128,7 @@ class RemoteControl
 
     public function renameFile($filename, $new_filename) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         if(substr($filename, -1) == "/") {
@@ -127,7 +140,7 @@ class RemoteControl
 
     public function fileExists($filename) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         if(substr($filename, -1) == "/") {
@@ -139,7 +152,7 @@ class RemoteControl
 
     public function deleteFile($filename) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         if(substr($filename, -1) == "/") {
@@ -151,7 +164,7 @@ class RemoteControl
 
     public function addFile($filename) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         if(substr($filename, -1) == "/") {
@@ -165,7 +178,7 @@ class RemoteControl
 
     public function addFolder($filename) {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         if(substr($filename, -1) == "/") {
@@ -179,7 +192,7 @@ class RemoteControl
 
     public function getHintContent() {
         if(!$this->connect_obj) {
-            $this->initConnect();
+            return;
         }
 
         return $this->connect_obj->getHintContent();

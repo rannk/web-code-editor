@@ -13,7 +13,9 @@ class LocalControl implements Control
     var $tmp_dir;
 
     public function connect(){
-
+        if(!file_exists($this->workspace_dir)) {
+            throw new Exception("workspace dir is not exist. " . $this->workspace_dir);
+        }
     }
 
     public function setCI(& $CI) {

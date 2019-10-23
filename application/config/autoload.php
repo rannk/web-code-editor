@@ -103,7 +103,14 @@ $autoload['helper'] = ["language", "basic"];
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+if(!file_exists(__DIR__."/project/config.php")) {
+    $fp = fopen(__DIR__."/project/config.php", "w");
+    $content = "<?php\n" . '$config["project_active"] = false;';
+    fwrite($fp, $content);
+    fclose($fp);
+}
+
+$autoload['config'] = array("project/config.php");
 
 /*
 | -------------------------------------------------------------------
