@@ -246,7 +246,9 @@ class SftpControl implements Control
 
         $workspace = $this->workspace_dir;
         $sftp = ssh2_sftp($this->connection);
-        $fileinfo = @ssh2_sftp_stat($sftp, $workspace . $file);
+        try{
+            $fileinfo = ssh2_sftp_stat($sftp, $workspace . $file);
+        }catch (Exception $e){}
 
         // 判断文件不存在
         if(!$fileinfo) {
