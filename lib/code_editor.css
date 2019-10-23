@@ -277,7 +277,7 @@ code_script {
 }
 
 .menu_wrapper>.active {
-    background: #0000ff;
+    background: #3c78d8;
 }
 .menu_wrapper>.active>.text, .menu_wrapper>.active>.icon, .menu_wrapper>.active>.sub_icon{
     color: #ffffff;
