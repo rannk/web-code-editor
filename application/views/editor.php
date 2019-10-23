@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css:lib/editor_modal.css">
 <link rel="stylesheet" href="lib/font-awesome.min.css">
 <link rel="stylesheet" href="addon/hint/show-hint.css">
-<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js:lib/editor_modal.js"></script>
+<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js:lib/editor_modal.js:lib/form.js"></script>
 <script src="lib/codemirror.js"></script>
 <script src="mode/clike/clike.js"></script>
 <script src="mode/xml/xml.js"></script>
@@ -18,7 +18,7 @@
 <script src="addon/hint/html-hint.js"></script>
 <script src="lib/drag_div.js"></script>
 <?php loadWorkspaceTypeJs()?>
-<body <?php if (getDevModel()) echo 'dev_model="true"'?>>
+<body <?php if (getDevModel()) echo 'dev_model="true"'?> project_title="<?=$project_title?>">
 <div id="top_nav">
     <div class="nav_item" id="btn_workspace">
         <?=lang("workspace")?>

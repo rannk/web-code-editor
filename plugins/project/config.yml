@@ -1,0 +1,20 @@
+plugin_config:
+    plugin_name: Project Management
+    executeJs: js/autoload.js
+    version: 1.0
+
+modal:
+    - layout.html
+
+nav_menu:
+    file:
+      submenu:
+         project_new:
+             name: $lang:new_project
+             executeJs: js/operation.js
+             executeAction: project.new
+         project_open:
+             name: $lang:open_project
+             executeJs: js/operation.js
+             executeAction: project.open
+

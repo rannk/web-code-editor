@@ -1,0 +1,50 @@
+<div id="modal_project_new" class="modal blink drag_div">
+    <div class="header"><?=$lang['new_project']?></div>
+    <div class="content">
+        <div id="project_content">
+            <label><?=$lang['project_title']?>:</label>
+            <input type="text" id="project_title"><br>
+            <label><?=$lang['project_directory']?>:</label>
+            <input type="text" id="project_dir"><br>
+            <label><?=$lang['connect_type']?>:</label>
+            <select id="connect_type">
+                <option value="sftp" selected>SFTP</option>
+                <option value="local" >LOCAL</option>
+            </select><br>
+            <div id="project_sftp_info">
+            <label><?=$lang['server_ip']?>:</label>
+            <input type="text" id="server_ip"><br>
+            <label><?=$lang['server_port']?>:</label>
+            <input type="text" id="server_port" value="22"><br>
+            <label><?=$lang['connect_user']?>:</label>
+            <input type="text" id="connect_user"><br>
+            <label><?=$lang['user_password']?>:</label>
+            <input type="password" id="user_password"><br>
+            </div>
+            <button id="save" class="btn primary"><?=$lang['add']?></button>
+            <button  class="btn close"><?=$lang['cancel']?></button>
+        </div>
+    </div>
+</div>
+
+<div id="modal_project_open" class="modal blink drag_div">
+    <div class="header"><?=$lang['open_project']?></div>
+    <div class="content">
+        <div id="project_open_content">
+            <ul id="project_open_lists">
+
+            </ul>
+            <button id="open" class="btn primary"><?=$lang['open']?></button>
+            <button id="remove" class="btn"><?=$lang['remove']?></button>
+            <button  class="btn close"><?=$lang['cancel']?></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    #modal_project_open li>span {
+        color: #8c8c8c;
+        font-size: 12px;
+        display: block;
+    }
+</style>

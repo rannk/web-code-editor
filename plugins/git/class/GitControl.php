@@ -24,6 +24,10 @@ class GitControl extends RemoteControl
     }
 
     public function checkGitActived() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git branch";
         $content = "";
         try{
@@ -39,6 +43,10 @@ class GitControl extends RemoteControl
     }
 
     public function getTrackFiles() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git status";
         $content = "";
 
@@ -117,6 +125,10 @@ class GitControl extends RemoteControl
      * @return string
      */
     public function commitFiles($file, $file_del, $message, $name, $email) {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $error = "";
         $content = "";
 
@@ -184,6 +196,10 @@ class GitControl extends RemoteControl
      * @return array|string
      */
     public function getBranchs() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd =  $this->getGotoWorkspaceDirCmd() . "git branch";
         $content = "";
         try{
@@ -221,6 +237,10 @@ class GitControl extends RemoteControl
     }
 
     public function getLastestCommit($n = 1) {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git log -n " . $n;
         $content = "";
 
@@ -235,6 +255,10 @@ class GitControl extends RemoteControl
     }
 
     public function getRemote() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git remote";
         $content = "";
 
@@ -254,6 +278,10 @@ class GitControl extends RemoteControl
     }
 
     public function checkout($branch, $new_branch = "") {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git checkout " . $branch;
         $content = "";
 
@@ -288,6 +316,10 @@ class GitControl extends RemoteControl
     }
 
     public function pull() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git pull";
         $content = "";
 
@@ -303,6 +335,10 @@ class GitControl extends RemoteControl
 
 
     public function push ($remote, $force = false) {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $content = "";
         $f = "";
         if($force) {
@@ -339,6 +375,10 @@ class GitControl extends RemoteControl
      * @throws Exception
      */
     public function getGlobal() {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $cmd = $this->getGotoWorkspaceDirCmd() . "git config --global user.name";
         $content = "";
 
@@ -371,6 +411,10 @@ class GitControl extends RemoteControl
      * @return array
      */
     public function getFolderFiles($path) {
+        if(!$this->connect_obj) {
+            return;
+        }
+
         $path = asciiToChar($path);
         $arr = array();
         $file_lists = $this->connect_obj->getFolderLists($path, array(), array(".git"));

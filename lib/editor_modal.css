@@ -42,7 +42,7 @@
 .modal label {
     font-weight: bold;
 }
-.modal input[type='text'] {
+.modal input[type='text'],  .modal input[type='password']{
     border-radius: 5px;
     border: solid thin;
     border-color: #8c8c8c;
@@ -51,6 +51,12 @@
     margin-bottom: 5px;
     padding-left: 5px;
     padding-right: 5px;
+    width: 100%;
+}
+
+.modal .active {
+    background: #2e6da4;
+    color: #ffffff;
 }
 
 .modal .btn {
@@ -69,3 +75,12 @@
     color: #ffffff;
 }
 
+
+.modal ul {
+    padding: 0;
+}
+.modal li {
+    min-height: 25px;
+    padding-left: 5px;
+    padding-top: 5px;
+}

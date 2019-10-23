@@ -37,10 +37,16 @@ class PluginsObj
         }
         $d->close();
 
+        $basicObj = get_instance()->basic;
+        $project_active = $basicObj->projectAcitve();
         for($i=0;$i<count($plugins_dir);$i++) {
             $dir_name = $plugins_dir[$i];
             $config_file = __DIR__ . "/../../plugins/" . $dir_name . "/config.yml";
 
+
+            if(!$project_active && $dir_name != "project") {
+                continue;
+            }
             // 先验证workspace是否能使用该插件
             // 默认在插件目录中有verfied文件，返回true表示可以使用
             if(file_exists(__DIR__ . "/../../plugins/" . $dir_name . "/verfied.php")) {

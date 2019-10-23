@@ -534,11 +534,3 @@ $config['temp_file_dir'] = __DIR__ . "/../cache";
  * the folder for saving the content, prepare for push to the remote server
  */
 $config['cache_file_dir'] = __DIR__ . "/../cache";
-
-$config['workspace_dir'] = "";
-
-$config['connect_type'] = "local";
-$config['conn_username'] = "";
-$config['conn_password'] = "";
-$config['conn_port'] = "";
-$config['conn_host'] = "";

@@ -17,9 +17,21 @@ class SftpControl implements Control
     var $connection;
     var $tmp_dir;
 
+    public function __construct()
+    {
+        setErrorAsException(__FILE__);
+    }
+
     public function connect(){
-        $this->connection = ssh2_connect($this->workspace_host, $this->port);
-        ssh2_auth_password($this->connection,  $this->username, $this->password);
+        try{
+            $this->connection = ssh2_connect($this->workspace_host, $this->port);
+        }catch (Exception $e) {
+            throw new Exception("sftp connect failed");
+        }
+
+
+        if($this->connection)
+            ssh2_auth_password($this->connection,  $this->username, $this->password);
     }
 
     public function setCI(& $CI) {
@@ -65,6 +77,9 @@ class SftpControl implements Control
     }
 
     public function saveFile($from, $to) {
+        if(!$this->connection)
+            return;
+
         if(!file_exists($from))
             return;
 
@@ -72,6 +87,9 @@ class SftpControl implements Control
     }
 
     public function getFolderLists($path = "", $ignore_files = array(), $keep_files = array()){
+        if(!$this->connection)
+            return;
+
         if($path == "/") {
             $path = "";
         }
@@ -143,23 +161,27 @@ class SftpControl implements Control
             }
         }
 
-        $this->cmd('cd ' . $workspace . " && ls ./ " . $folder_str, $stream);
+        try{
+            $this->cmd('cd ' . $workspace . " && ls ./ " . $folder_str, $stream);
+        }catch (Exception $e){
 
-        $i = 0;
+        }
+
         if($stream) {
             $stream_arr = explode("\n", $stream);
-            for($ii=0;$ii<count($stream_arr);$ii++){
-                $content = trim($stream_arr[$ii]);
-                if($content) {
-                    $findme = $folder_arr[$i]['name'];
-                    $content = str_replace("\n", "", $content);
 
-                    if($content == $findme . ":"){
-                        if(trim(strlen($stream_arr[$ii+1])) > 0) {
-                            $folder_arr[$i]['hasfile'] = 1;
+            for($i=0;$i<count($folder_arr);$i++) {
+                $findme = $folder_arr[$i]['name'];
+                for($j=0;$j<count($stream_arr);$j++) {
+                    $content = trim($stream_arr[$j]);
+                    if($content) {
+                        $content = str_replace("\n", "", $content);
+                        if($content == $findme . ":"){
+                            if(trim(strlen($stream_arr[$j+1])) > 0) {
+                                $folder_arr[$i]['hasfile'] = 1;
+                            }
+                            break;
                         }
-                        $ii++;
-                        $i++;
                     }
                 }
             }
@@ -170,6 +192,9 @@ class SftpControl implements Control
 
     public function renameFile($file, $newfile_name)
     {
+        if(!$this->connection)
+            return;
+
         if(!$file || !$newfile_name)
             return;
 
@@ -189,6 +214,9 @@ class SftpControl implements Control
 
     public function deleteFile($file)
     {
+        if(!$this->connection)
+            return;
+
         $workspace = $this->workspace_dir;
         $sftp = ssh2_sftp($this->connection);
         $fileinfo = @ssh2_sftp_stat($sftp, $workspace . $file);
@@ -213,6 +241,9 @@ class SftpControl implements Control
     }
 
     public function addFile($file) {
+        if(!$this->connection)
+            return;
+
         $workspace = $this->workspace_dir;
         $sftp = ssh2_sftp($this->connection);
         $fileinfo = @ssh2_sftp_stat($sftp, $workspace . $file);
@@ -237,6 +268,9 @@ class SftpControl implements Control
     }
 
     public function fileExists($file) {
+        if(!$this->connection)
+            return;
+
         $workspace = $this->workspace_dir;
 
         $sftp = ssh2_sftp($this->connection);
@@ -251,6 +285,9 @@ class SftpControl implements Control
 
     public function addFolder($file)
     {
+        if(!$this->connection)
+            return;
+
         if(!$this->fileExists($file)) {
             $workspace = $this->workspace_dir;
             $sftp = ssh2_sftp($this->connection);
@@ -265,6 +302,9 @@ class SftpControl implements Control
     }
 
     public function getOsType() {
+        if(!$this->connection)
+            return;
+
         // 判断系统类型
         // 如果是win系统，则用win的命令删除目录,否则用rm
         $stream = ssh2_exec($this->connection, 'uname');
@@ -290,6 +330,9 @@ class SftpControl implements Control
      * @throws Exception
      */
     public function cmd($cmd, &$content = "", $output_callback = false) {
+        if(!$this->connection)
+            return;
+
         $stream = ssh2_exec($this->connection, $cmd);
         $stderr_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         stream_set_blocking($stream, true);
@@ -312,6 +355,9 @@ class SftpControl implements Control
     }
 
     public function getHintContent() {
+        if(!$this->connection)
+            return;
+
         switch($this->workspace_type) {
             case "php":
                 ssh2_scp_send($this->connection, __DIR__ . '/../HintCol/php_class_col.php', '/tmp/php_class_col.php');
