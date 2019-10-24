@@ -534,3 +534,13 @@ $config['temp_file_dir'] = __DIR__ . "/../cache";
  * the folder for saving the content, prepare for push to the remote server
  */
 $config['cache_file_dir'] = __DIR__ . "/../cache";
+/**
+ * the folder that cache the images file from project
+ */
+$config['image_cache_dir'] = __DIR__ . "/../../images";
+/**
+ * the domain for visiting the project's image file
+ * work with image_cache_dir
+ * if this is not set, will use editor's domain
+ */
+$config['image_cache_domain'] = "";

@@ -212,6 +212,22 @@ function checkFileSitePath($plugin_dir, $filename) {
     return $site_path . $filename;
 
 }
+
+/**
+ * 判断文件是不是图片
+ * @param $filename
+ */
+function isImage($filename) {
+    $image_ext_arr = ["jpg", "jpeg", "png", "bmp", "gif"];
+    $file_arr = pathinfo($filename);
+    $ext = strtolower($file_arr['extension']);
+    if(in_array($ext, $image_ext_arr)) {
+        return $ext;
+    }
+
+    return false;
+}
+
 /**
  * 合并配置文件
  * 合并要求：如果原先没有元素，则增加新的元素
