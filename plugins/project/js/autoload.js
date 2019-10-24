@@ -72,5 +72,7 @@ $("#modal_project_new #connect_type").on("change", function () {
     if($(this).val() == "local") {
         $("#modal_project_new #project_sftp_info").hide();
         $("#modal_project_new #server_ip").val("local");
+        $("#modal_project_new #connect_user").val(" ");
+        $("#modal_project_new #user_password").val(" ");
     }
 })
