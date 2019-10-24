@@ -96,6 +96,35 @@ class RemoteControl
 
         $content = $this->connect_obj->getFileContent($filename);
 
+        // 如果文件是图片，复制图片，并返回图片的链接地址
+        $ext = isImage($filename);
+        if($ext) {
+            $CI = & get_instance();
+
+            if($CI->config->item("image_cache_dir")) {
+                $image_dir = $CI->config->item("image_cache_dir") . "/projects";
+            }else {
+                $image_dir = __DIR__ . "/../../images/projects";
+            }
+
+            if(!file_exists($image_dir)) {
+                mkdir($image_dir);
+            }
+
+            $tmp_image_name = md5($CI->config->item("conn_host") . $filename) . "." . $ext;
+
+            $fp = fopen($image_dir . "/" . $tmp_image_name, "w");
+            fwrite($fp, $content);
+            fclose($fp);
+            $content = "";
+            if($CI->config->item("image_cache_domain")) {
+                $content = $CI->config->item("image_cache_domain");
+            }else {
+                $content = "/images";
+            }
+            $content .= "/projects/" . $tmp_image_name;
+        }
+
         return $content;
     }
 

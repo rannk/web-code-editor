@@ -255,6 +255,25 @@ code_script {
     max-height: 0px;
     max-width: 0px;
 }
+
+.tab-pane .show_jpg{
+    margin:5px auto;
+    width: 80%;
+    overflow: scroll;
+    height: 100%;
+    text-align: center;
+}
+
+.tab-pane .show_jpg::-webkit-scrollbar {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .tab-pane .show_jpg{
+        width: 100%;
+    }
+}
+
 .file_loading ul {
     padding: 0;
     padding-top: 15%;
