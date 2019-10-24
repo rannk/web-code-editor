@@ -74,6 +74,8 @@ function addNewProject() {
             $r['msg'] .= "$k,";
             $r['status'] = 0;
         }
+        //去除所有隐含字符
+        $_POST[$k] = trim($v);
     }
 
     if($r['status'] == 0) {
@@ -96,6 +98,7 @@ function addNewProject() {
         $projects[] = $_POST;
         try{
             $ci->basic->saveGlobalConfig("projects", $projects);
+            $ci->basic->setCurrentActiveProject($_POST['title']);
         }catch (Exception $e) {
             $r['msg'] = $e->getMessage();
             $r['status'] = 0;

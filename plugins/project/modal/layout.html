@@ -2,6 +2,15 @@
     <div class="header"><?=$lang['new_project']?></div>
     <div class="content">
         <div id="project_content">
+            <label><?=$lang['project_type']?>:</label>
+            <select id="project_type">
+                <option value="php" selected>PHP</option>
+                <option value="java" >JAVA</option>
+                <option value="javascript" >Javascript</option>
+                <option value="python" >Python</option>
+                <option value="clike" >C++</option>
+                <option value="ruby" >Ruby</option>
+            </select><br>
             <label><?=$lang['project_title']?>:</label>
             <input type="text" id="project_title"><br>
             <label><?=$lang['project_directory']?>:</label>

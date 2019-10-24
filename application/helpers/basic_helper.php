@@ -185,6 +185,14 @@ function loadPluginsModal($plugin_dir, $modal_file) {
     }
 }
 
+function getStandardPath($path) {
+    $path = str_replace("\\", "/", $path);
+    if(substr($path, 0, 1) == "/") {
+        $path = substr($path, 0, -1);
+    }
+
+    return $path;
+}
 /**
  * 判断给定文件的路径
  * 如果给定的文件开头是以 / 开头，则认为是绝对路径，不做任何改变返回

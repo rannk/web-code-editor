@@ -69,6 +69,7 @@ class Basic
             }
 
             if(count($p)>0) {
+                $p['project_dir'] = getStandardPath($p['project_dir']);
                 $CI->config->set_item("connect_type", $p['connect_type']);
                 $CI->config->set_item("conn_host", $p['server_ip']);
                 $CI->config->set_item("workspace_dir", $p['project_dir']);
@@ -76,6 +77,7 @@ class Basic
                 $CI->config->set_item("conn_password", $p['user_password']);
                 $CI->config->set_item("conn_port", $p['server_port']);
                 $CI->config->set_item("project_title", $p['project_title']);
+                $CI->config->set_item("workspace_type", $p['project_type']);
 
                 $content = "<?php\n";
                 $content .= '$config["connect_type"] = "' .  $p['connect_type'] . '";' . "\n";
@@ -85,7 +87,7 @@ class Basic
                 $content .= '$config["conn_password"] = "' .  $p['user_password'] . '";' . "\n";
                 $content .= '$config["conn_port"] = "' .  $p['server_port'] . '";' . "\n";
                 $content .= '$config["project_title"] = "' .  $p['project_title'] . '";' . "\n";
-
+                $content .= '$config["workspace_type"] = "' .  $p['project_type'] . '";' . "\n";
 
             }
         }
