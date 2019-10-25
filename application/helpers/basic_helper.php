@@ -187,7 +187,7 @@ function loadPluginsModal($plugin_dir, $modal_file) {
 
 function getStandardPath($path) {
     $path = str_replace("\\", "/", $path);
-    if(substr($path, 0, 1) == "/") {
+    if(substr($path, -1) == "/") {
         $path = substr($path, 0, -1);
     }
 
