@@ -119,6 +119,11 @@ code_script {
 #workspace ul {
     -webkit-padding-start:20px;
 }
+
+#workspace ul li {
+    word-break: break-all;
+    overflow: hidden;
+}
 #workspace span {
     width: 20px;
 }

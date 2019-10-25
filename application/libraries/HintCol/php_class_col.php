@@ -4,18 +4,12 @@
  */
 
 $dir = $argv[1];
-//$file_arr = getPHPfiles($dir);
-
-//$test = 'E:\CommonLogin.php';
-//$test = 'E:/workspace/web/code_editor/application/helpers/basic_helper.php';
-//print_r(anayFile($test));
-
-
 $files = getPHPfiles($dir);
-
 $class_obj = array();
 
-for($i=0;$i<count($files);$i++) {
+$number = count($files);
+
+for($i=0;$i<$number;$i++) {
     $filename = $files[$i];
     $arr = anayFile($filename);
     if(is_array($arr) && count($arr) > 0) {
@@ -126,8 +120,9 @@ function getPHPfiles($dir) {
     $arr = array();
 
     while (false !== ($entry = $d->read())) {
-        if($entry == "." || $entry == "..")
+        if(substr($entry, 0, 1) == ".") {
             continue;
+        }
 
         $filename = $dir . "/" . $entry;
         if(is_dir($filename)) {
@@ -150,9 +145,12 @@ function getPHPfiles($dir) {
  * @return mixed|string
  */
 function removeComments($contents) {
+    $contents = str_replace("\'", "", $contents);
+    $contents = str_replace('\"', "", $contents);
     $contents = preg_replace('/<<<\'{0,1}(\w*)\'{0,1}[\w\W]*\1;/', "", $contents);
-    $contents = preg_replace('/\'.*\'/', "", $contents);
-    $contents = preg_replace('/\".*\"/', "", $contents);
+    $contents = preg_replace('/\'.*?\'/', "", $contents);
+    $contents = preg_replace('/\".*?\"/', "", $contents);
+
     do {
         if(!preg_match('/\/\*/', $contents, $matches, PREG_OFFSET_CAPTURE)){
             break;
@@ -162,7 +160,7 @@ function removeComments($contents) {
 
         // 确保注释结束符位置要大于开始位置
         $offset = 0;
-        $endpos = 0;
+        $endpos = strlen($contents);
         do{
             if(!preg_match('/\*\//', $contents, $e_matches, PREG_OFFSET_CAPTURE, $offset)){
                 break;
