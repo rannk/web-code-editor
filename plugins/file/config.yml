@@ -66,7 +66,7 @@ content_menu:
              name: $lang:save
              executeJs: js/operation.js
              executeAction: save
-             icon: '<span class="fa fa-save" style="color: #6d9eeb"></span>'
+             icon: '<span class="ide-icon ide-save"></span>'
          rename:
              name: $lang:rename
              executeJs: js/operation.js
