@@ -10,12 +10,12 @@ nav_menu:
              name: $lang:add_new_file
              executeJs: js/operation.js
              executeAction: newfile
-             icon: '<span class="fa fa-file-text" style="color: #ffffff"></span>'
+             icon: '<span class="ide-icon ide-file"></span>'
          add_new_folder:
              name: $lang:add_new_folder
              executeJs: js/operation.js
              executeAction: newfolder
-             icon: '<span class="fa fa-folder" style="color: #6d9eeb"></span>'
+             icon: '<span class="ide-icon ide-folder"></span>'
          rename:
              name: $lang:rename
              executeJs: js/operation.js
@@ -46,12 +46,12 @@ folder_menu:
              name: $lang:add_new_file
              executeJs: js/operation.js
              executeAction: newfile
-             icon: '<span class="fa fa-file-text" style="color: #ffffff"></span>'
+             icon: '<span class="ide-icon ide-file"></span>'
          add_new_folder:
              name: $lang:add_new_folder
              executeJs: js/operation.js
              executeAction: newfolder
-             icon: '<span class="fa fa-folder" style="color: #6d9eeb"></span>'
+             icon: '<span class="ide-icon ide-folder"></span>'
          rename:
              name: $lang:rename
              executeJs: js/operation.js

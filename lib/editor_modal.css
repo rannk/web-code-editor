@@ -70,12 +70,18 @@
     min-height: 27px;
 }
 
+
+
 .btn.primary {
     background: #3c78d8;
     color: #ffffff;
 }
 
-
+.btn.disabled {
+    background-color: #fcf8e3;
+    pointer-events: none;
+    color: #aaaaaa;
+}
 .modal ul {
     padding: 0;
 }

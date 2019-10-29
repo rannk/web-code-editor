@@ -13,22 +13,34 @@ nav_menu:
              name: $lang:git_commit
              executeJs: js/operation.js
              executeAction: git.commit
+             icon: '<span class="ide-icon ide-commit"></span>'
          git_cmd:
              submenu:
                  git_push:
                      name: $lang:git_push
                      executeJs: js/operation.js
                      executeAction: git.push
-                     icon: '<span class="fa fa-level-up" style="color: #274e13"></span>'
+                     icon: '<span class="ide-icon ide-push"></span>'
                  git_pull:
                      name: $lang:git_pull
                      executeJs: js/operation.js
                      executeAction: git.pull
-                     icon: '<span class="fa fa-level-down" style="color: #274e13"></span>'
+                     icon: '<span class="ide-icon ide-pull"></span>'
                  git_checkout:
                      name: $lang:git_checkout
                      executeJs: js/operation.js
                      executeAction: git.switch
-                     icon: '<span class="fa fa-exchange" style="color: #274e13"></span>'
+                     icon: '<span class="ide-icon ide-switch"></span>'
+                 git_revert:
+                     name: $lang:git_revert
+                     executeJs: js/operation.js
+                     executeAction: git.revert
+                     icon: '<span class="ide-icon ide-revert"></span>'
              name: $lang:git_name
-             icon: '<span class="fa fa-github" style="color: #6d9eeb"></span>'
+             icon: '<span class="ide-icon ide-github"></span>'
+content_menu:
+            git_revert:
+                name: $lang:git_revert
+                executeJs: js/operation.js
+                executeAction: git.revert
+                icon: '<span class="ide-icon ide-revert"></span>'

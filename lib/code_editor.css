@@ -31,6 +31,7 @@ code_script {
     padding-top: 5px;
     padding-left: 10px;
     float: left;
+    top: 0;
 }
 
 #btn_workspace {
@@ -120,19 +121,22 @@ code_script {
     -webkit-padding-start:20px;
 }
 
+
+
 #workspace ul li {
-    word-break: break-all;
-    overflow: hidden;
+    white-space:nowrap;
 }
 #workspace span {
     width: 20px;
 }
-#workspace .fa-chevron-right {
-    color: #5e5e5e;
+#workspace .fa-caret-right {
+    color: #9f9e9e;
+    font-size: 20px;
 }
 
-#workspace .fa-chevron-down {
-    color: #5e5e5e;
+#workspace .fa-caret-down {
+    color: #9f9e9e;
+    font-size: 20px;
 }
 
 #workspace .fa-folder {
@@ -315,9 +319,10 @@ code_script {
 }
 
 .menu_wrapper li .icon{
-    left: 8px;
+    left: 1px;
     position: absolute;
-    padding-top: 2px;
+    padding-top: 0px;
+    top: 4px;
 }
 
 .menu_wrapper li .sub{

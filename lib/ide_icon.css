@@ -1,0 +1,35 @@
+.ide-icon {
+    width: 20px;
+    height: 20px;
+    display:inline-block;
+    background: url("/images/ide_icon.png") no-repeat;
+}
+
+.ide-push {
+    background-position: 0 -60;
+}
+.ide-commit {
+    background-position: 0 0;
+}
+.ide-file {
+    background-position: 0 -20;
+}
+
+.ide-pull {
+    background-position: 0 -40;
+}
+.ide-switch {
+    background-position: 0 -100;
+}
+.ide-revert {
+    background-position: 0 -80;
+}
+.ide-github {
+    background-position: 0 -120;
+}
+.ide-command {
+    background-position: 0 -140;
+}
+.ide-folder {
+    background-position: 0 -160;
+}
