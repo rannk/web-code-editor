@@ -133,7 +133,7 @@ class GitControl extends RemoteControl
         $content = "";
 
         if($file == "" && $file_del == "") {
-            return "can't cmmit without files";
+            return "can't commit without files";
         }
 
         if($message == "") {
@@ -436,5 +436,24 @@ class GitControl extends RemoteControl
         }
 
         return $arr;
+    }
+
+    public function revertFiles($files) {
+        $r['status'] = 0;
+        if(!$files) {
+            $r['msg'] = "no files to revert";
+        }
+
+        $cmd = $this->getGotoWorkspaceDirCmd() . 'git checkout head ' . $files;
+        $content = "";
+        try{
+            $this->connect_obj->cmd($cmd, $content);
+            $r['status'] = 1;
+            $r['msg'] = $content;
+        }catch (Exception $e) {
+            $r['msg'] = $e->getMessage();
+        }
+
+        return $r;
     }
 }

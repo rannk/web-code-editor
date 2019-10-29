@@ -131,6 +131,8 @@ function setPluginItem($tag, $arr) {
             $content .= " has_sub='true'";
         }
         $content .= ">" . $menu_icon . $name . $sub_icon ."<div class='sub'>$sub</div>";
+    }else {
+        return;
     }
 
     $content .= "</" . $tag . ">";

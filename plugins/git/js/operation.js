@@ -14,6 +14,10 @@ if($.editor.action == "git.push") {
     showGitMsgModal("push");
 }
 
+if($.editor.action == "git.revert") {
+    showGitRevertModal();
+}
+
 function showGitSwitchModal() {
     // init the modal
     $("#modal_git_switch #content_loading").show();
@@ -61,7 +65,7 @@ function showGitMsgModal(type) {
     $("#modal_git_msg .header").html(title);
     $("#modal_git_msg").modal("show");
     $("#modal_git_msg .body").hide();
-    $("#modal_git_msg #msg_btn").attr("disabled", false);
+    $("#modal_git_msg #msg_btn").addClass("disabled");
     $.ajax({
         type: 'post',
         url: "index.php/api/plugins/git/git?action=" + type,
@@ -81,6 +85,8 @@ function showGitMsgModal(type) {
                     })
                     content += "<br><input type='checkbox' id='force_push'>Force Push";
                 }
+
+                $("#modal_git_msg #msg_btn").removeClass("disabled");
             }else {
                 content = data.msg;
             }
@@ -94,7 +100,7 @@ function showGitMsgModal(type) {
 }
 
 function showGitCommitModal() {
-    $("#modal_git_commit #commit_btn").attr("disabled", false);
+    $("#modal_git_commit #commit_btn").addClass("disabled");
     $("#modal_git_commit #message").val("");
     $("#modal_git_commit #git_branch").html("");
     $("#modal_git_commit").modal("show");
@@ -134,19 +140,58 @@ function showGitCommitModal() {
                     $("#commit_files").append(new_str);
                 }
 
+                $("#modal_git_commit #commit_btn").removeClass("disabled");
             }
 
             if(data.code == "0") {
                 if(!data.msg){
                     $("#modal_git_commit .file_loading").remove();
                     $("#commit_files").html("No files were changed or added since the last commit.");
-                    $("#modal_git_commit #commit_btn").attr("disabled", "disabled");
                 }else {
                     $("#modal_git_commit").modal("hide");
                     alert(data.msg);
                 }
             }
             $("#modal_git_commit #git_branch").html(data.branch);
+        },
+        dataType: "json"
+    });
+}
+
+function showGitRevertModal() {
+    $("#modal_git_revert #revert_btn").addClass("disabled");
+    $("#modal_git_revert #revert_files").loadingDiv();
+    $("#modal_git_revert").modal("show");
+    $.ajax({
+        type: 'post',
+        url: "index.php/api/plugins/git/git?action=add",
+        success: function (data) {
+            var has_modified_data;
+            var modified_str;
+
+            if(data.code == "1") {
+                $("#revert_files").html("");
+                $.each(data.data, function(idx, item){
+
+                    if(item.status != "New") {
+                        has_modified_data = true;
+                        modified_str += '<tr class="'+item.status+'"><td><input type="checkbox"></td><td>'+item.name+'</td><td>'+item.status+'</td></tr>'
+                    }
+                });
+            }
+            if(has_modified_data) {
+                $("#revert_files").append('<thead><td></td><td>Path</td><td>Status</td></thead>');
+                $("#revert_files").append(modified_str);
+                $("#modal_git_revert #revert_btn").removeClass("disabled");
+            }else {
+                if(!data.msg){
+                    $("#modal_git_revert #revert_files").loadingDiv("hide");
+                    $("#revert_files").html("File list is empty.");
+                }else {
+                    $("#modal_git_revert").modal("hide");
+                    alert(data.msg);
+                }
+            }
         },
         dataType: "json"
     });

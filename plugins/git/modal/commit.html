@@ -10,8 +10,8 @@
             <label>Author:</label><br><input type="text" id="author"><br>
             <label>Email:</label><br><input type="text" id="email">
         </div>
-        <div style="margin-top: 10px;" id="commit_files_div">
-            <table id="commit_files">
+        <div style="margin-top: 10px;" id="commit_files_div" class="table_div">
+            <table id="commit_files" class="git_table">
             </table>
         </div>
         <div style="margin-top: 20px;">
@@ -64,6 +64,20 @@
         </div>
     </div>
 </div>
+
+<div id="modal_git_revert" class="modal blink git_modal drag_div">
+    <div class="header">Revert</div>
+    <div class="content">
+        <div style="margin-top: 10px;" id="git_revert_files_div" class="table_div">
+            <table id="revert_files" class="git_table">
+            </table>
+        </div>
+        <div style="margin-top: 20px;">
+            <button id="revert_btn" class="btn primary"><?=$lang['revert']?></button>
+            <button  class="btn close"><?=$lang['close']?></button>
+        </div>
+    </div>
+</div>
 <style>
     #modal_git_commit{
         width: 600px;
@@ -72,11 +86,15 @@
     #modal_git_commit .content {
         background-color: #e8e8e8;
     }
-    #modal_git_commit table{
+    .table_div {
+        min-height: 150px;
         background-color: #ffffff;
+    }
+    .git_table{
+
         width: 100%;
     }
-    #modal_git_commit thead{
+    .git_table thead{
         background-color: #cccccc;
     }
 
@@ -84,35 +102,36 @@
         width: 100%;
         min-height: 40px;
     }
-    #modal_git_commit thead tr{
+    .git_table thead tr{
         border-right: solid;
         border-right-width: thin;
         border-right-color: #fff;
+        height: 25px;
 
     }
 
-    #modal_git_commit .modified{
+    .git_table .modified{
         color: #2e6da4;
     }
-    #modal_git_commit .deleted{
+    .git_table .deleted{
         color: #843534;
     }
-    #modal_git_commit .tag {
+    .git_table .tag {
         font-size: 13px;
         color: #2e6da4;
         margin-top: 8px;
         margin-bottom: 8px;
     }
 
-    #modal_git_commit input {
+    .git_table input {
         margin: 0;
         min-height: 15px;
     }
-    #modal_git_commit td {
+    .git_table td {
         padding-left: 5px;
         font-size: 12px;
     }
-    #modal_git_commit td:nth-child(1) {
+    .git_table td:nth-child(1) {
         width: 30px;
     }
 

@@ -89,7 +89,7 @@ $("#switch_btn").click(function () {
 $("#modal_git_msg #msg_btn").click(function () {
     $("#modal_git_msg #content_loading").show();
     $("#modal_git_msg .body").hide();
-    $("#modal_git_msg #msg_btn").attr("disabled", "disabled");
+    $("#modal_git_msg #msg_btn").addClass("disabled");
 
     var type = $("#modal_git_msg #msg_btn").html().toLowerCase();
 
@@ -111,5 +111,40 @@ $("#modal_git_msg #msg_btn").click(function () {
             $("#modal_git_msg #content_loading").hide();
             $("#modal_git_msg .body").show();
         }
+    });
+});
+
+$("#revert_btn").click(function () {
+    var files = "", data;
+    $("#revert_files input[type='checkbox']").each(function () {
+        if($(this).is(":checked")) {
+            var file = $(this).parents("tr").find("td:nth-child(2)").html();
+            files += file + "|;|";
+        }
+    });
+
+    if(!files) {
+        alert("please select the file");
+        return;
+    }
+
+    data = "files=" + files;
+    $(this).btn_wait();
+    $.ajax({
+        type: 'post',
+        url: "index.php/api/plugins/git/git?action=revert",
+        data: data,
+        success: function (result) {
+            if(result.status == "1") {
+                location.href = "/";
+            }else {
+                $("#modal_git_revert #revert_btn").btn_wait_recover();
+                alert(result.msg);
+            }
+        },
+        error: function (e) {
+            console.log(e);
+        },
+        dataType: "json"
     });
 });

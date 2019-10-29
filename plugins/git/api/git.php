@@ -106,3 +106,16 @@ if($_REQUEST['action'] == "push_op") {
 
     echo htmlentities($content);
 }
+
+if($_REQUEST['action'] == "revert") {
+    $arr['status'] = 0;
+    $files = str_replace("|;|", " ", $_POST['files']);
+
+    if(!$files) {
+        $arr['msg'] = "no revert files";
+    }else {
+        $arr = $gObj->revertFiles($files);
+    }
+
+    echo json_encode($arr);
+}

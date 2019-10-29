@@ -1,6 +1,6 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css:lib/editor_modal.css">
+<link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css:lib/editor_modal.css:lib/ide_icon.css">
 <link rel="stylesheet" href="lib/font-awesome.min.css">
 <link rel="stylesheet" href="addon/hint/show-hint.css">
 <script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js:lib/editor_modal.js:lib/form.js"></script>
@@ -70,7 +70,7 @@
         <div id="workspace_handle">|</div>
         <ul>
             <li type="folder" root="yes" name="workspace" file="/">
-                <div class="filename"><span class="fa fa-chevron-right tag"></span><span class="fa fa-folder"></span><label>worksapce</label></div>
+                <div class="filename"><span class="fa fa-caret-right tag"></span><span class="fa fa-folder"></span><label>worksapce</label></div>
             </li>
         </ul>
     </div>
