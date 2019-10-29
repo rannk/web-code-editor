@@ -371,7 +371,13 @@ function loadWorkspaceTypeJs() {
     $type = strtolower($type);
     switch($type) {
         case "php":
-            echo '<script src="addon/hint/phpclass-hint.js"></script><script src="addon/hint/php-hint-col.js"></script>';
+            echo '<script src="mode/php/php.js"></script><script src="addon/hint/phpclass-hint.js"></script><script src="addon/hint/php-hint-col.js"></script>';
+            break;
+        case "python":
+            echo '<script src="mode/python/python.js"></script>';
+            break;
+        case "ruby":
+            echo '<script src="mode/ruby/ruby.js"></script>';
             break;
         default:
     }

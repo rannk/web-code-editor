@@ -9,8 +9,6 @@
 <script src="mode/xml/xml.js"></script>
 <script src="mode/javascript/javascript.js"></script>
 <script src="mode/htmlmixed/htmlmixed.js"></script>
-<script src="mode/php/php.js"></script>
-<script src="mode/python/python.js"></script>
 <script src="mode/shell/shell.js"></script>
 <script src="mode/sql/sql.js"></script>
 <script src="addon/hint/show-hint.js"></script>
