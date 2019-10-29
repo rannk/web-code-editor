@@ -36,3 +36,9 @@
 .ide-save {
     background-position: -20 0;
 }
+.ide-caret-right {
+    background-position: -20 -20;
+}
+.ide-caret-down {
+    background-position: -20 -40;
+}

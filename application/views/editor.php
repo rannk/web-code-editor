@@ -70,7 +70,7 @@
         <div id="workspace_handle">|</div>
         <ul>
             <li type="folder" root="yes" name="workspace" file="/">
-                <div class="filename"><span class="fa fa-caret-right tag"></span><span class="fa fa-folder"></span><label>worksapce</label></div>
+                <div class="filename"><span class="ide-icon ide-caret-right tag"></span><span class="fa fa-folder"></span><label>worksapce</label></div>
             </li>
         </ul>
     </div>
