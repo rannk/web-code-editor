@@ -444,7 +444,7 @@ class GitControl extends RemoteControl
             $r['msg'] = "no files to revert";
         }
 
-        $cmd = $this->getGotoWorkspaceDirCmd() . 'git checkout head ' . $files;
+        $cmd = $this->getGotoWorkspaceDirCmd() . 'git checkout HEAD ' . $files;
         $content = "";
         try{
             $this->connect_obj->cmd($cmd, $content);
