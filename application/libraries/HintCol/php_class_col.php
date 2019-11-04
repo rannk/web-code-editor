@@ -11,7 +11,7 @@ $number = count($files);
 
 for($i=0;$i<$number;$i++) {
     $filename = $files[$i];
-    $arr = anayFile($filename);
+    $arr = anayFile($filename, $dir);
     if(is_array($arr) && count($arr) > 0) {
         $class_obj = array_merge_recursive ($class_obj, $arr);
     }
@@ -19,7 +19,7 @@ for($i=0;$i<$number;$i++) {
 
 echo json_encode($class_obj);
 
-function anayFile($filename) {
+function anayFile($filename, $dir) {
     if(!file_exists($filename))
         return;
 
@@ -27,10 +27,14 @@ function anayFile($filename) {
         return;
     }
 
+    $dir = str_replace("\\", "/", $dir);
+    $dir = ucfirst($dir) . "/";
 
-    $handle = fopen($filename, "r");
-    $contents = fread($handle, filesize($filename));
-    fclose($handle);
+    $ff = str_replace("\\", "/", $filename);
+    $ff = ucfirst($ff);
+    $ff = str_replace($dir, "/", $ff);
+
+    $contents = addLineMark($filename);
 
     // 过滤注释
     $contents = removeComments($contents);
@@ -78,15 +82,15 @@ function anayFile($filename) {
             $contents = $new_contents . substr($contents, $pos_end);
             $fun_offsets = 0;
             do{
-                if(!preg_match('/((public )|(private )){0,1}function {1,}(\w{1,}) {0,}\(/', $fun_contents, $fun_matches, PREG_OFFSET_CAPTURE, $fun_offsets)) {
+                if(!preg_match('/(n\d{1,} ).*((public )|(private )){0,1}function {1,}(\w{1,}) {0,}\(/', $fun_contents, $fun_matches, PREG_OFFSET_CAPTURE, $fun_offsets)) {
                     break;
                 }
 
-                if(!$fun_matches[3][0]) {
-                    $fun_arr[$class_name][] = $fun_matches[4][0];
+                if(!$fun_matches[4][0]) {
+                    $fun_arr[$class_name][] = $fun_matches[5][0] . " ||" . $ff . "||" . str_replace("n", "", $fun_matches[1][0]);
                 }
 
-                $fun_offsets = $fun_matches[4][1];
+                $fun_offsets = $fun_matches[5][1];
 
             }while(true);
 
@@ -104,15 +108,30 @@ function anayFile($filename) {
     // 全局方法的寻找
     $offsets = 0;
     do {
-        if(!preg_match('/function {0,}(\w{1,}) {0,}\(/', $contents, $matches, PREG_OFFSET_CAPTURE, $offsets)) {
+        if(!preg_match('/(n\d{1,} ).*function {0,}(\w{1,}) {0,}\(/', $contents, $matches, PREG_OFFSET_CAPTURE, $offsets)) {
             break;
         }
 
-        $fun_arr['global_fun'][] = $matches[1][0];
-        $offsets = $matches[1][1];
+        $fun_arr['global_fun'][] = $matches[2][0] . " ||" . $ff . "||" . str_replace("n", "", $matches[1][0]);
+        $offsets = $matches[2][1];
     }while(true);
 
     return $fun_arr;
+}
+
+
+function addLineMark($filename) {
+    $handle = fopen($filename, "r");
+    $line = 1;
+    if ($handle) {
+        $content = "";
+        while (($buffer = fgets($handle, 10000)) !== false) {
+            $content .= "|n".$line++." " . $buffer;
+        }
+        fclose($handle);
+    }
+
+    return $content;
 }
 
 function getPHPfiles($dir) {
