@@ -126,7 +126,8 @@
                         }
                     }
                 }else {
-                    r_arr[count++] = class_arr[obj][i];
+                    var fun_str_arr = class_arr[obj][i].split("||");
+                    r_arr[count++] = fun_str_arr[0].replace(" ", "");
                 }
             }
         }
@@ -160,4 +161,94 @@
             }
         }
     });
+})
+
+$(document).ready(function () {
+    $("body").keydown(function (e) {
+        if(e.ctrlKey) {
+            var ctr = $(".CodeMirror-scroll span[class*='cm-']");
+            ctr.mouseover(function () {
+                if(typeof $.hint_class_arr == "object") {
+                    var pick_fun = [];
+                    for(var class_obj in $.hint_class_arr) {
+                        if(typeof $.hint_class_arr[class_obj] == "object") {
+                            for(var i in $.hint_class_arr[class_obj]) {
+                                var fun_str = $.hint_class_arr[class_obj][i].toString();
+                                var fun_str_arr = fun_str.split("||");
+                                if(fun_str_arr[0].replace(" ", "") == $(this).text()) {
+                                    $(this).addClass("underline");
+                                    var file_id = hex_md5(fun_str_arr[1]);
+                                    pick_fun[file_id] = fun_str_arr;
+                                    $(this).unbind("click");
+                                    $(this).click(function () {
+                                            var fun_number = 0, last_fun;
+                                            $("#code_declaration ul").html("");
+                                            for(file_id in pick_fun){
+                                                last_fun = pick_fun[file_id];
+                                                var n_arr = last_fun[1].split("/");
+                                                var name = n_arr[n_arr.length - 1];
+                                                $("#code_declaration ul").append("<li type='file' line='"+parseInt(last_fun[2])+"' file_id='"+file_id+"' name='"+name+"' class='tmp_file' file='"+ last_fun[1]+"'>"+last_fun[0]+" ... "+last_fun[1]+"</li>");
+                                                fun_number++;
+                                            }
+
+                                            $("#code_declaration li").each(function () {
+                                                var obj = $(this);
+                                                obj.mouseover(function () {
+                                                    obj.addClass("active");
+                                                });
+
+                                                obj.mouseout(function () {
+                                                    obj.removeClass("active");
+                                                });
+                                            })
+
+                                            if(fun_number > 1) {
+                                                // 如果有多个方法显示列表
+                                                $(this).floatDiv("#code_declaration", "show");
+                                                $("#code_declaration ul li").click(function(){
+                                                    last_fun[1] = $(this).attr("file");
+                                                    last_fun[2] = $(this).attr("line");
+                                                    file_id = $(this).attr("file_id");
+                                                    $(this).floatDiv("#code_declaration", "hide");
+                                                    gotoCodeLine(file_id, last_fun);
+                                                });
+                                            }else {
+                                                gotoCodeLine(file_id, last_fun);
+                                            }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            ctr.mouseout(function(){
+                $(this).removeClass("underline");
+                $(this).unbind("click");
+            });
+        }
+    });
+
+    $("body").keyup(function () {
+        $(".CodeMirror-scroll span[class*='cm-']").unbind("mouseover");
+    });
+
+    function gotoCodeLine(file_id, last_fun) {
+        if($("li[file_id='"+file_id+"']").length == 0) {
+            var n_arr = last_fun[1].split("/");
+            var name = n_arr[n_arr.length - 1];
+            $("#workspace>ul").append("<li type='file' line='"+last_fun[2]+"' file_id='"+file_id+"' name='"+name+"' class='tmp_file' file='"+ last_fun[1]+"' style='display: none'></li>");
+        }
+        addNewTab(file_id);
+        var m_height = parseInt($("li[file_id='"+file_id+"'].tmp_file").attr("line"))*20 - 400;
+        if(m_height < 0)
+            m_height = 0;
+        $("#" + file_id + " .CodeMirror-scroll").scrollTop(m_height);
+        $("#workspace .tmp_file").remove();
+        $.editor.onContentLoaded(function () {
+            $("#" + file_id + " .CodeMirror-scroll").scrollTop(m_height);
+            m_height = 0;
+        })
+    }
 })

@@ -172,6 +172,9 @@ code_script {
     left:0px;
 }
 
+.underline {
+    text-decoration: underline;
+}
 .filename span {
     min-width: 20px;
     margin-top: 3px;
@@ -474,4 +477,34 @@ code_script {
 #icons_show span {
     margin-top: 3px;
     margin-right: 5px;
+}
+
+#code_declaration {
+    background-color: #ffffff;
+    border-bottom: solid;
+    border-bottom-width: thin;
+    border-bottom-color: #cccccc;
+    position: fixed;
+    min-width: 200px;
+    min-height: 40px;
+    top: 0;
+    z-index: 999;
+}
+#code_declaration .header {
+    text-align: center;
+    background-color: #bababa;
+}
+#code_declaration ul {
+    margin: 0;
+    padding: 0;
+}
+#code_declaration li {
+    height: 25px;
+    vertical-align: middle;
+    padding: 0 5px;
+}
+
+#code_declaration li.active {
+    background: #3c78d8;
+    color: #FFFFFF;
 }

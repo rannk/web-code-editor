@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="index.php/css/minify?lib/codemirror.css:lib/code_editor.css:lib/editor_modal.css:lib/ide_icon.css">
 <link rel="stylesheet" href="lib/font-awesome.min.css">
 <link rel="stylesheet" href="addon/hint/show-hint.css">
-<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js:lib/editor_modal.js:lib/form.js"></script>
+<script src="index.php/js/minify?lib/jquery.js:lib/md5.js:lib/code_editor.js:lib/editor_modal.js:lib/form.js:lib/float_div.js"></script>
 <script src="lib/codemirror.js"></script>
 <script src="mode/clike/clike.js"></script>
 <script src="mode/xml/xml.js"></script>
@@ -124,6 +124,11 @@
     </div>
 </div>
 <div id="modal_cover"></div>
+<div id="code_declaration" style="display: none">
+    <div class="header">Declaration</div>
+    <ul class="list">
+    </ul>
+</div>
 <?php
 /**
  * load content menu data from plugins
