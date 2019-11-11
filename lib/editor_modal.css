@@ -77,6 +77,10 @@
     color: #ffffff;
 }
 
+.disabled {
+    color: #aaaaaa;
+}
+
 .btn.disabled {
     background-color: #fcf8e3;
     pointer-events: none;

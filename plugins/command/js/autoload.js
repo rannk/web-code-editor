@@ -28,38 +28,21 @@ $("#modal_command_new #save").click(function () {
             if(data.status == "0") {
                 console.log(data.msg);
             }
+            setCommandContMenu();
         }
     });
 });
 
 $("#modal_command_lists #run").click(function () {
-    var index = $("#cmd_display").attr("index"); //用来区分相同命令同时运行
     var cmd_id = $("#modal_command_lists li.active").attr("idx");
     var cmd_name = $("#modal_command_lists li.active").html();
-
-    // 获取当前打开的文件名，传递参数用
-    var content_id = $.editor.content_id;
-    var open_file_name = $("a[data-target='"+content_id+"']").html();
 
     if(!cmd_id) {
         alert("Please select your command");
         return;
     }
 
-
-
-    $("#cmd_display_iframe").attr("src", "");
-    $("#modal_command_lists").modal("hide");
-    $("#modal_command_display").modal("show");
-    $("#modal_command_display .header").html(cmd_name);
-    //$("#cmd_display").modal("loading");
-
-    var data = "cmd_id=" + cmd_id + "&filename=" + open_file_name;
-
-    cmd_id = cmd_id + "_" + index;
-    $("#cmd_display").attr("run_id", cmd_id);
-    $("#cmd_display").attr("index", parseInt(index)+1);
-    $("#cmd_display").prepend('<iframe  id="cmd_'+cmd_id+'" class="display" src="index.php/api/plugins/command/api?action=real_time&'+data+'"></iframe>');
+    runCommand(cmd_id, cmd_name);
 });
 
 $("#modal_command_display #cmd_min").click(function () {
@@ -120,6 +103,7 @@ $("#modal_command_lists #edit").click(function () {
                 $("#modal_command_new #script").val(data.content.script);
                 $("#modal_command_new #cmd_id").val(cmd_id);
                 $("#cmd_content").modal("loading_end");
+                setCommandContMenu();
             }
         }
     });
@@ -134,3 +118,68 @@ $("#modal_command_display .all_close").click(function () {
         $("#cmd_min_" + cmd_id).remove();
     }
 });
+
+function runCommand(cmd_id, cmd_name) {
+    var index = $("#cmd_display").attr("index"); //用来区分相同命令同时运行
+
+    // 获取当前打开的文件名，传递参数用
+    var content_id = $.editor.content_id;
+    var open_file_name = $("a[data-target='"+content_id+"']").html();
+
+    $("#cmd_display_iframe").attr("src", "");
+    $("#modal_command_lists").modal("hide");
+    $("#modal_command_display").modal("show");
+    $("#modal_command_display .header").html(cmd_name);
+    //$("#cmd_display").modal("loading");
+
+    var data = "cmd_id=" + cmd_id + "&filename=" + open_file_name;
+
+    cmd_id = cmd_id + "_" + index;
+    $("#cmd_display").attr("run_id", cmd_id);
+    $("#cmd_display").attr("index", parseInt(index)+1);
+    $("#cmd_display").prepend('<iframe  id="cmd_'+cmd_id+'" class="display" src="index.php/api/plugins/command/api?action=real_time&'+data+'"></iframe>');
+}
+
+function setCommandContMenu() {
+    $("#command_cont_menu").addClass("disabled");
+    var content = '<label class="icon"><span class="ide-icon ide-command"></span></label><div class="text">Command</div>';
+    $("#command_cont_menu").html(content);
+    $.ajax({
+        type: 'post',
+        url: "index.php/api/plugins/command/api?action=lists",
+        dataType: "json",
+        success: function (data) {
+            var ele = "";
+            $.each(data, function(idx, item){
+                if(item.title != "") {
+                    ele += "<li idx='"+idx+"'><div class='text'>" + item.title + "</div></li>";
+                }
+            })
+
+            if(ele.length > 0) {
+                content += '<label class="sub_icon"><span class="fa fa-caret-right"></span></label><div class="sub"><ul class="menu_wrapper" style="display: none">' + ele + '</ul></div>';
+                $("#command_cont_menu").html(content);
+                $("#command_cont_menu").removeClass("disabled");
+                $("#command_cont_menu").attr("has_sub", "true");
+                $("#command_cont_menu li").each(function () {
+                    var obj = $(this);
+                    obj.mouseover(function () {
+                        obj.addClass("active");
+                    });
+
+                    obj.mouseout(function () {
+                        obj.removeClass("active");
+                    });
+
+                    obj.click(function () {
+                        var cmd_id = $(this).attr("idx");
+                        var cmd_name = $(this).find("div").text();
+                        runCommand(cmd_id, cmd_name);
+                    })
+                })
+            }
+        }
+    });
+}
+
+setCommandContMenu();

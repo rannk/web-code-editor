@@ -21,4 +21,8 @@ nav_menu:
                      name: $lang:lists
                      executeJs: js/operation.js
                     executeAction: command.lists
-
+content_menu:
+         save:
+             name: $lang:command
+             id: command_cont_menu
+             icon: '<span class="ide-icon ide-command"></span>'
